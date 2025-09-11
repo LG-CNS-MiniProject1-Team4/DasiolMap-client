@@ -2,7 +2,7 @@ import sampleImg from "../../assets/images/homeMember/sample.jpeg";
 export const RecentItembox = () => {
   return (
     <div
-      className="w-[189px] h-[189px] rounded-[24px] bg-[#E86C00] relative overflow-hidden shadow-[0_0_3px_rgba(0,0,0,0.25)]
+      className="w-[189px] h-[189px] rounded-[24px] bg-[#E86C00] relative overflow-hidden shadow-[0_0_3px_rgba(0,0,0,0.25)] hover:shadow-[0_0_12px_-1px_rgba(0,0,0,0.20)]
 "
     >
       <img

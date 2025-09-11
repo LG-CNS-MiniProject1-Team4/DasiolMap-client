@@ -7,8 +7,16 @@ import icon3 from "../assets/icons/homeMember/grayBoxIcon3.svg";
 import { RecentList } from "../components/homeMember/recentList";
 import { SearchLocateSection } from "../components/homeMember/SearchLocateSection";
 import { SearchKeywordSection } from "../components/homeMember/SearchKeywordSection";
+import { useState } from "react";
 
 export const HomeMember = () => {
+  const [searchBy, setSearchBy] = useState(null); // "location" // "keyword"
+
+  const [searchInput, setSearchInput] = useState("input"); //input //key
+
+  const [inputValue, setInputValue] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   return (
     <div>
       <PageLayout>
@@ -29,25 +37,57 @@ export const HomeMember = () => {
             <div className="w-[1px] bg-[#C4C4C4] h-[178px] opacity-[0.9] mr-[60px]"></div>
             {/* 검색영역 */}
             <div className="pt-[10px]">
-              <div className="flex gap-[15px] font-semibold text-[16px]">
-                <p className="text-[#E86C00] border-b-[2px]">통합검색</p>
-                <p>키워드 검색</p>
+              <div className="flex gap-[15px] font-semibold text-[16px] cursor-pointer">
+                <p
+                  className={`${
+                    searchInput === "input"
+                      ? "text-[#E86C00] border-b-[2px]"
+                      : ""
+                  }`}
+                  onClick={() => setSearchInput("input")}
+                >
+                  통합검색
+                </p>
+                <p
+                  className={`${
+                    searchInput === "key" ? "text-[#E86C00] border-b-[2px]" : ""
+                  }`}
+                  onClick={() => setSearchInput("key")}
+                >
+                  키워드 검색
+                </p>
               </div>
               <div className="mt-7 w-[534px] h-[45px] text-[16px]">
-                <input
-                  placeholder="검색어를 입력해주세요"
-                  className="border-[1px] border-[#C4C4C4] rounded-[12px] w-full h-full pl-7 placeholder:font-light placeholder:text-[#C4C4C4] focus:outline-none"
-                />
+                {searchInput === "input" ? (
+                  <input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && inputValue.trim() !== "") {
+                        setSearchBy("keyword");
+                        setSearchKeyword(inputValue);
+                        setInputValue("");
+                      }
+                    }}
+                    type="text"
+                    placeholder="검색어를 입력해주세요"
+                    className="border-[1px] border-[#C4C4C4] rounded-[12px] w-full h-full pl-7 placeholder:font-light placeholder:text-[#C4C4C4] focus:outline-none"
+                  />
+                ) : (
+                  <div>{searchKeyword}</div>
+                )}
               </div>
             </div>
           </div>
         </div>
+
         <div className="mt-[76px] mb-[150px] flex gap-[20px]">
           <GrayBox
             icon={icon1}
             t1="다시 올 장소"
             t2=" 위치로 찾기"
             desc="사용자들이 직접 등록한 다시 오고 싶은 맛집을 둘러보세요"
+            onClick={() => setSearchBy("location")}
           />
           <GrayBox
             icon={icon2}
@@ -64,8 +104,13 @@ export const HomeMember = () => {
           />
         </div>
 
-        {/* <SearchLocateSection /> */}
-        <SearchKeywordSection />
+        {/* 메인영역 */}
+        {searchBy === "location" ? (
+          <SearchLocateSection />
+        ) : searchBy === "keyword" ? (
+          <SearchKeywordSection searchKey={searchKeyword} />
+        ) : null}
+
         {/* 최근 등록장소 */}
         <RecentList />
       </PageLayout>

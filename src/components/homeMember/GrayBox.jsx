@@ -1,7 +1,14 @@
 import next from "../../assets/icons/homeMember/next.svg";
 import whiteNext from "../../assets/icons/homeMember/whiteNext.svg";
 
-export const GrayBox = ({ icon, t1, t2, desc, color = "none" }) => {
+export const GrayBox = ({
+  icon,
+  t1,
+  t2,
+  desc,
+  color = "none",
+  onClick = null,
+}) => {
   return (
     <div
       className={`cursor-pointer flex-1 h-[132px] rounded-[12px] pt-[22px] pl-[26px] text-[20px] font-semibold flex flex-col gap-[23px] ${
@@ -9,6 +16,7 @@ export const GrayBox = ({ icon, t1, t2, desc, color = "none" }) => {
           ? "bg-[#FF9B41] text-[#FFF]"
           : "bg-[#ECECEC] text-[#757575] "
       }`}
+      onClick={onClick}
     >
       <div className=" flex justify-between pr-[13px] items-center">
         <p className="flex">
