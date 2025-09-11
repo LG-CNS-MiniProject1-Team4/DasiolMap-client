@@ -20,8 +20,8 @@ export const SearchLocateSection = () => {
           <div
             className={`w-[156px] h-[156px] flex flex-col gap-[5px] rounded-full justify-center items-center cursor-pointer ${
               place === location
-                ? "shadow-[0_0_7.6px_-1px_#F70] "
-                : "shadow-[0_0_7.6px_-1px_rgba(0,0,0,0.20)] "
+                ? "shadow-[0_0_7.6px_-1px_#F70] hover:shadow-[0_0_12px_-1px_#F70] "
+                : "shadow-[0_0_7.6px_-1px_rgba(0,0,0,0.20)] hover:shadow-[0_0_12px_-1px_rgba(0,0,0,0.20)]"
             }`}
             key={index}
             onClick={() => setLocation(place)}
