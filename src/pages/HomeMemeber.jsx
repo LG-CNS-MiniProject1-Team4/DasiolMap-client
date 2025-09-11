@@ -56,7 +56,11 @@ export const HomeMember = () => {
                       ? "text-[#E86C00] border-b-[2px]"
                       : ""
                   }`}
-                  onClick={() => setSearchInput("input")}
+                  onClick={() => {
+                    setSearchInput("input");
+                    setSelectedKeywords(new Set());
+                    setSearchKeyword("");
+                  }}
                 >
                   통합검색
                 </p>
@@ -64,7 +68,11 @@ export const HomeMember = () => {
                   className={`${
                     searchInput === "key" ? "text-[#E86C00] border-b-[2px]" : ""
                   }`}
-                  onClick={() => setSearchInput("key")}
+                  onClick={() => {
+                    setSearchInput("key");
+                    setSearchKeyword("");
+                    setSelectedKeywords(new Set());
+                  }}
                 >
                   키워드 검색
                 </p>
@@ -124,11 +132,13 @@ export const HomeMember = () => {
         {searchBy === "location" ? (
           <SearchLocateSection />
         ) : searchBy === "keyword" ? (
-          <SearchKeywordSection
-            mode={searchInput}
-            searchKey={searchKeyword} //검색어
-            selectedKeywords={[...selectedKeywords]} //키워드
-          />
+          (searchKeyword !== "" || selectedKeywords.size > 0) && (
+            <SearchKeywordSection
+              mode={searchInput}
+              searchKey={searchKeyword} //검색어
+              selectedKeywords={[...selectedKeywords]} //키워드
+            />
+          )
         ) : null}
 
         {/* 최근 등록장소 */}
