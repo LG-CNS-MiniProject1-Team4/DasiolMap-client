@@ -3,10 +3,6 @@ import styled from "styled-components";
 // import api from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 
-export const SignUp = () => {
-  return <div className="text-[#FF7700]">SignUp</div>;
-};
-
 // Container
 const Container = styled.div`
   display: flex;
@@ -72,7 +68,7 @@ const Button = styled.button`
 `;
 
 // SignUp Component
-const SignUpPage = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
   const [nickname, setNickname] = useState("");
@@ -92,7 +88,7 @@ const SignUpPage = () => {
     await api
       .post("/api/v2/inspire/user/signup", data)
       .then((response) => {
-        // console.log("[debug] >>> post response : " , response );
+        console.log("[debug] >>> post response : ", response);
         moveUrl("/login");
       })
       .catch((error) => {
@@ -149,7 +145,7 @@ const SignUpPage = () => {
           type="button"
           onClick={(e) => handleSubmit(e, email, passwd, nickname, name)}
         >
-          가입하기
+          회원가입
         </Button>
       </FormWrapper>
     </Container>
