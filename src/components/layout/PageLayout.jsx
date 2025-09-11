@@ -5,7 +5,7 @@ export default function PageLayout({ children }) {
   return (
     <>
       <Header />
-      <main className="mx-[112px]">{children}</main>
+      <main className="mx-[112px] ">{children}</main>
       <Footer />
     </>
   );
