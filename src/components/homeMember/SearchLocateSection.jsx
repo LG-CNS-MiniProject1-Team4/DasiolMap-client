@@ -1,5 +1,6 @@
 import { useState } from "react";
 import nearMe from "../../assets/icons/homeMember/nearMe.svg";
+import { SearchListComponent } from "./SearchListComponent";
 
 export const SearchLocateSection = () => {
   const placeList = ["내주변", "인천", "경기", "서울", "강원", "제주"];
@@ -31,6 +32,17 @@ export const SearchLocateSection = () => {
             {place}
           </div>
         ))}
+      </div>
+
+      <div className="mt-[57px] grid grid-cols-3 gap-[17px]">
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
+        <SearchListComponent />
       </div>
     </div>
   );

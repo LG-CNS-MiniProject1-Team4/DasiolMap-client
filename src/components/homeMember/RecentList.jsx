@@ -12,7 +12,7 @@ export const RecentList = () => {
       >
         <ul className="flex">
           {items.map((_, index) => (
-            <li key={index} className="inline-block mr-4">
+            <li key={index} className="inline-block mr-4 cursor-pointer">
               <RecentItembox />
             </li>
           ))}

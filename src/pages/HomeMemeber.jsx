@@ -6,6 +6,7 @@ import icon2 from "../assets/icons/homeMember/grayBoxIcon2.svg";
 import icon3 from "../assets/icons/homeMember/grayBoxIcon3.svg";
 import { RecentList } from "../components/homeMember/recentList";
 import { SearchLocateSection } from "../components/homeMember/SearchLocateSection";
+import { SearchKeywordSection } from "../components/homeMember/SearchKeywordSection";
 
 export const HomeMember = () => {
   return (
@@ -62,8 +63,9 @@ export const HomeMember = () => {
             desc="나만의 다시 오고 싶은 장소를 공유해주세요"
           />
         </div>
-        <SearchLocateSection />
 
+        {/* <SearchLocateSection /> */}
+        <SearchKeywordSection />
         {/* 최근 등록장소 */}
         <RecentList />
       </PageLayout>
