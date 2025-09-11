@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import api from "../../../api/axios";
+// import api from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
@@ -56,7 +56,7 @@ const Button = styled.button`
   background-color: #ff7700;
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
@@ -77,19 +77,18 @@ const SignUpPage = () => {
   const [passwd, setPasswd] = useState("");
   const [nickname, setNickname] = useState("");
   const [name, setName] = useState("");
-  const [birthdate, setBirthdate] = useState("");
 
   const moveUrl = useNavigate();
 
-  const handleSubmit = async (e, email, passwd, nickname, name, birthdate) => {
+  const handleSubmit = async (e, email, passwd, nickname, name) => {
     e.preventDefault();
-    console.log(">>>>>>>>>>> ", email, passwd, nickname, name, birthdate);
+    console.log(">>>>>>>>>>> ", email, passwd, nickname, name);
 
     console.log("회원가입 정보:");
     // 여기서 API 호출 가능 axios post : data(emai, passwd, name)
     // 1. 유효성 체크
     // 2. 정상적인 데이터 입력시 화면전환 /login 이동
-    const data = { email, passwd, nickname, name, birthdate };
+    const data = { email, passwd, nickname, name };
     await api
       .post("/api/v2/inspire/user/signup", data)
       .then((response) => {
@@ -127,12 +126,12 @@ const SignUpPage = () => {
           required
         />
         <Input
-          type="text"
+          type="nickname"
           name="nickname"
           placeholder="닉네임을 입력하세요"
           value={nickname}
           onChange={(e) => {
-            setConfirmPasswd(e.target.value);
+            setNickname(e.target.value);
           }}
           required
         />
@@ -146,21 +145,9 @@ const SignUpPage = () => {
           }}
           required
         />
-        <Input
-          type="text"
-          name="birthdate"
-          placeholder="년도 월 일"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          required
-        />
         <Button
           type="button"
-          onClick={(e) =>
-            handleSubmit(e, email, passwd, nickname, name, birthdate)
-          }
+          onClick={(e) => handleSubmit(e, email, passwd, nickname, name)}
         >
           가입하기
         </Button>
