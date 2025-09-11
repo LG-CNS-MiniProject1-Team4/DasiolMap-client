@@ -1,3 +1,8 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import api from "../../../api/axios";
+import { useNavigate } from "react-router-dom";
+
 export const SignUp = () => {
   return <div className="text-[#FF7700]">SignUp</div>;
 };
@@ -11,59 +16,157 @@ const Container = styled.div`
   background-color: #ffffff;
 `;
 
-// loginform
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(#c4c4c4);
-  width: 777px;
-  height: 70px;
+// Form Box
+const FormWrapper = styled.div`
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  width: 400px;
 `;
 
-return (
-  <Container>
-    <BackLink href="/">
-      <BackIcon>&lt;</BackIcon>
-      다시올지도
-    </BackLink>
-    <FormContainer>
-      <LeftSection>
-        <LoginTitle>로그인</LoginTitle>
-        <LinkWrapper>
-          <AccountLink>아직 계정이 없으신가요?</AccountLink>
-          <SignUpLink href="/signup">회원가입</SignUpLink>
-        </LinkWrapper>
-      </LeftSection>
-      <RightSection>
-        <WelcomeMessage>다시올지도에 오신 것을 환영합니다</WelcomeMessage>
-        <Form onSubmit={handleSubmit}>
-          <InputGroup>
-            <Label>이메일</Label>
-            <Input
-              type="email"
-              name="email"
-              placeholder="이메일을 입력하세요"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </InputGroup>
-          <InputGroup>
-            <Label>비밀번호</Label>
-            <Input
-              type="password"
-              name="password"
-              placeholder="비밀번호를 입력하세요"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </InputGroup>
-          <SubmitButton type="submit">로그인</SubmitButton>
-        </Form>
-      </RightSection>
-    </FormContainer>
-  </Container>
-);
+// Title
+const Title = styled.h2`
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3c3c3c;
+  font-size: 60px;
+`;
+
+// Input
+const Input = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+`;
+
+// Button
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  background-color: #ff7700;
+  color: white;
+  border: none;
+  font-size: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: #ff7700;
+  }
+
+  &:disabled {
+    background-color: #ffffff;
+    cursor: not-allowed;
+  }
+`;
+
+// SignUp Component
+const SignUpPage = () => {
+  const [email, setEmail] = useState("");
+  const [passwd, setPasswd] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [name, setName] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+
+  const moveUrl = useNavigate();
+
+  const handleSubmit = async (e, email, passwd, nickname, name, birthdate) => {
+    e.preventDefault();
+    console.log(">>>>>>>>>>> ", email, passwd, nickname, name, birthdate);
+
+    console.log("회원가입 정보:");
+    // 여기서 API 호출 가능 axios post : data(emai, passwd, name)
+    // 1. 유효성 체크
+    // 2. 정상적인 데이터 입력시 화면전환 /login 이동
+    const data = { email, passwd, nickname, name, birthdate };
+    await api
+      .post("/api/v2/inspire/user/signup", data)
+      .then((response) => {
+        // console.log("[debug] >>> post response : " , response );
+        moveUrl("/login");
+      })
+      .catch((error) => {
+        console.log("[debug] >>> post error");
+      });
+  };
+
+  return (
+    <Container>
+      <FormWrapper>
+        <Title>회원가입</Title>
+
+        <Input
+          type="email"
+          name="email"
+          placeholder="이메일을 입력하세요"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          required
+        />
+        <Input
+          type="password"
+          name="passwd"
+          placeholder="비밀번호를 입력하세요"
+          value={passwd}
+          onChange={(e) => {
+            setPasswd(e.target.value);
+          }}
+          required
+        />
+        <Input
+          type="text"
+          name="nickname"
+          placeholder="닉네임을 입력하세요"
+          value={nickname}
+          onChange={(e) => {
+            setConfirmPasswd(e.target.value);
+          }}
+          required
+        />
+        <Input
+          type="text"
+          name="name"
+          placeholder="이름을 입력하세요"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          required
+        />
+        <Input
+          type="text"
+          name="birthdate"
+          placeholder="년도 월 일"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          required
+        />
+        <Button
+          type="button"
+          onClick={(e) =>
+            handleSubmit(e, email, passwd, nickname, name, birthdate)
+          }
+        >
+          가입하기
+        </Button>
+      </FormWrapper>
+    </Container>
+  );
+};
+
+export default SignUp;
