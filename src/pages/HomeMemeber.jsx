@@ -8,6 +8,7 @@ import { RecentList } from "../components/homeMember/recentList";
 import { SearchLocateSection } from "../components/homeMember/SearchLocateSection";
 import { SearchKeywordSection } from "../components/homeMember/SearchKeywordSection";
 import { useState } from "react";
+import { KeywordComponent } from "../components/homeMember/KeywordComponent";
 
 export const HomeMember = () => {
   const [searchBy, setSearchBy] = useState(null); // "location" // "keyword"
@@ -16,6 +17,17 @@ export const HomeMember = () => {
 
   const [inputValue, setInputValue] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
+
+  const [selectedKeywords, setSelectedKeywords] = useState(new Set());
+
+  const toggleKeyword = (key) => {
+    setSelectedKeywords((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
+    setSearchBy("keyword");
+  };
 
   return (
     <div>
@@ -57,8 +69,9 @@ export const HomeMember = () => {
                   키워드 검색
                 </p>
               </div>
-              <div className="mt-7 w-[534px] h-[45px] text-[16px]">
-                {searchInput === "input" ? (
+
+              {searchInput === "input" ? (
+                <div className="mt-7 w-[534px] h-[45px] text-[16px]">
                   <input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -73,10 +86,13 @@ export const HomeMember = () => {
                     placeholder="검색어를 입력해주세요"
                     className="border-[1px] border-[#C4C4C4] rounded-[12px] w-full h-full pl-7 placeholder:font-light placeholder:text-[#C4C4C4] focus:outline-none"
                   />
-                ) : (
-                  <div>{searchKeyword}</div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <KeywordComponent
+                  selected={selectedKeywords}
+                  onToggle={toggleKeyword}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -108,7 +124,11 @@ export const HomeMember = () => {
         {searchBy === "location" ? (
           <SearchLocateSection />
         ) : searchBy === "keyword" ? (
-          <SearchKeywordSection searchKey={searchKeyword} />
+          <SearchKeywordSection
+            mode={searchInput}
+            searchKey={searchKeyword} //검색어
+            selectedKeywords={[...selectedKeywords]} //키워드
+          />
         ) : null}
 
         {/* 최근 등록장소 */}
