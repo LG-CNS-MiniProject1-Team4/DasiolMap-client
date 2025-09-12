@@ -1,12 +1,30 @@
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import {
+  CustomOverlayMap,
+  Map,
+  MapInfoWindow,
+  MapMarker,
+  useKakaoLoader,
+} from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
 import { useState } from "react";
 import mapMarker from "../../assets/icons/myMap/mapMarker.svg";
 
+import sampleImg from "../../assets/images/homeMember/sample.jpeg";
+
 const sampleMapData = [
-  { center: { lat: 33.450701, lng: 126.571644 } },
-  { center: { lat: 33.450701, lng: 126.570663 } },
+  {
+    center: { lat: 33.450701, lng: 126.571644 },
+    storeName: "라쿤피자",
+    tags: ["데이트", "데이트", "데이트"],
+    thumbImg: sampleImg,
+  },
+  {
+    center: { lat: 33.450701, lng: 126.570663 },
+    storeName: "라쿤피자",
+    tags: ["데이트", "데이트", "데이트"],
+    thumbImg: sampleImg,
+  },
 ];
 
 export const MapArea = () => {
@@ -71,17 +89,53 @@ export const MapArea = () => {
         level={3}
       >
         {sampleMapData.map((m, idx) => (
-          <MapMarker
-            position={m.center}
-            key={idx}
-            image={{
-              src: mapMarker,
-              size: {
-                width: 70,
-                height: 70,
-              },
-            }}
-          />
+          <div>
+            <MapMarker
+              className="relative z-10"
+              position={m.center}
+              key={idx}
+              image={{
+                src: mapMarker,
+                size: {
+                  width: 70,
+                  height: 70,
+                },
+              }}
+            />
+            <CustomOverlayMap position={m.center} className="relative">
+              <div>
+                <div className="bottom-[10px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
+                  <img //마커 & 오버레이 겹치게....!!!
+                    src={mapMarker}
+                    alt="mapmarker"
+                    className="z-10 absolute bottom-[-11px] left-[-20px] w-[70px] h-[70px]"
+                  />
+                  {/* 오버레이 데이터 */}
+                  <div className="flex justify-between p-[10px]">
+                    <div className="flex flex-col">
+                      <div className="flex text-[#E86C00] items-center align-center text-center text-[9px] gap-1">
+                        {m.tags.map((t) => (
+                          <p className="bg-[#FFEDD5] px-1 py-[3px] rounded-[50px]">
+                            # {t}
+                          </p>
+                        ))}
+                      </div>
+                      <h4 className="mt-[12px] text-[20px] text-[#505050] font-bold flex justify-end">
+                        {m.storeName}
+                      </h4>
+                    </div>
+                    <div>
+                      <img
+                        src={m.thumbImg}
+                        alt={m.storeName}
+                        className="w-20 h-20 rounded-[12px]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CustomOverlayMap>
+          </div>
         ))}
       </Map>
     </div>
