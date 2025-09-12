@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ROUTES } from "./constants/routes";
 import { HomeGuest } from "./pages/HomeGuest";
 import { HomeMember } from "./pages/HomeMemeber";
-import { Login } from "./pages/Login";
+import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
 function App() {

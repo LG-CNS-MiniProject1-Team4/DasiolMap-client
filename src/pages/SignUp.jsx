@@ -1,3 +1,5 @@
+// 비율 조정 & 로그인 버튼 추가
+
 import React, { useState } from "react";
 import styled from "styled-components";
 // import api from "../../../api/axios";
@@ -97,7 +99,6 @@ const SignUp = () => {
   const moveUrl = useNavigate();
 
   const handleSubmit = async (e, email, passwd, nickname, name, birth) => {
-    e.preventDefault();
     console.log(">>>>>>>>>>> ", email, passwd, nickname, name, birth);
 
     console.log("회원가입 정보:");
@@ -157,7 +158,7 @@ const SignUp = () => {
         />
         <Input
           type="text"
-          placeholder="년도.월.일"
+          placeholder="생년월일 (YYYY.MM.DD)"
           value={birth}
           onChange={(e) => setBirth(e.target.value)}
           required
