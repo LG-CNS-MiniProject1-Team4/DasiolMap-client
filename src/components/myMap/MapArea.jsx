@@ -1,13 +1,12 @@
 import {
   CustomOverlayMap,
   Map,
-  MapInfoWindow,
   MapMarker,
   useKakaoLoader,
 } from "react-kakao-maps-sdk";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import mapMarker from "../../assets/icons/myMap/mapMarker.svg";
 
 import sampleImg from "../../assets/images/homeMember/sample.jpeg";
@@ -32,6 +31,11 @@ export const MapArea = () => {
 
   const navigate = useNavigate();
   const [openSavedList, setOpenSavedList] = useState(false);
+  const [hovered, setHovered] = useState(null);
+  const [active, setActive] = useState(null);
+
+  const visible = (idx) => active === idx || hovered === idx;
+  const stop = (e) => e?.domEvent?.stopPropagation?.();
 
   return (
     <div className="mx-[-112px] h-[calc(100vh-153px)] relative">
@@ -87,9 +91,13 @@ export const MapArea = () => {
         id="map"
         center={{ lat: 33.450701, lng: 126.570667 }}
         level={3}
+        onClick={() => {
+          setActive(null);
+          // setHovered(null);
+        }}
       >
         {sampleMapData.map((m, idx) => (
-          <div>
+          <Fragment key={idx}>
             <MapMarker
               className="relative z-10"
               position={m.center}
@@ -101,41 +109,61 @@ export const MapArea = () => {
                   height: 70,
                 },
               }}
+              onMouseOver={() => setHovered(idx)}
+              onMouseOut={() =>
+                active === idx &&
+                setHovered((cur) => (cur === idx ? null : cur))
+              }
+              onClick={(e) => {
+                stop(e);
+                setActive((cur) => (cur === idx ? null : idx));
+              }}
             />
-            <CustomOverlayMap position={m.center} className="relative">
-              <div>
-                <div className="bottom-[10px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
-                  <img //마커 & 오버레이 겹치게....!!!
-                    src={mapMarker}
-                    alt="mapmarker"
-                    className="z-10 absolute bottom-[-11px] left-[-20px] w-[70px] h-[70px]"
-                  />
-                  {/* 오버레이 데이터 */}
-                  <div className="flex justify-between p-[10px]">
-                    <div className="flex flex-col">
-                      <div className="flex text-[#E86C00] items-center align-center text-center text-[9px] gap-1">
-                        {m.tags.map((t) => (
-                          <p className="bg-[#FFEDD5] px-1 py-[3px] rounded-[50px]">
-                            # {t}
-                          </p>
-                        ))}
+            {visible(idx) && (
+              <CustomOverlayMap position={m.center} className="relative">
+                <div
+                  onMouseEnter={() => setHovered(idx)}
+                  onMouseLeave={() =>
+                    setHovered((cur) => (cur === idx ? null : cur))
+                  }
+                  onClick={(e) => {
+                    stop(e);
+                    setActive(idx);
+                  }}
+                >
+                  <div className="bottom-[10px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
+                    <img //마커 & 오버레이 겹치게....!!!
+                      src={mapMarker}
+                      alt="mapmarker"
+                      className="z-10 absolute bottom-[-11px] left-[-20px] w-[70px] h-[70px]"
+                    />
+                    {/* 오버레이 데이터 */}
+                    <div className="flex justify-between p-[10px]">
+                      <div className="flex flex-col">
+                        <div className="flex text-[#E86C00] items-center align-center text-center text-[9px] gap-1">
+                          {m.tags.map((t) => (
+                            <p className="bg-[#FFEDD5] px-1 py-[3px] rounded-[50px]">
+                              # {t}
+                            </p>
+                          ))}
+                        </div>
+                        <h4 className="mt-[12px] text-[20px] text-[#505050] font-bold flex justify-end">
+                          {m.storeName}
+                        </h4>
                       </div>
-                      <h4 className="mt-[12px] text-[20px] text-[#505050] font-bold flex justify-end">
-                        {m.storeName}
-                      </h4>
-                    </div>
-                    <div>
-                      <img
-                        src={m.thumbImg}
-                        alt={m.storeName}
-                        className="w-20 h-20 rounded-[12px]"
-                      />
+                      <div>
+                        <img
+                          src={m.thumbImg}
+                          alt={m.storeName}
+                          className="w-20 h-20 rounded-[12px]"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </CustomOverlayMap>
-          </div>
+              </CustomOverlayMap>
+            )}
+          </Fragment>
         ))}
       </Map>
     </div>
