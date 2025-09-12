@@ -7,50 +7,54 @@ import { useNavigate } from "react-router-dom";
 //   return <div className="text-[#FF7700]">SignUp</div>;
 // };
 
-// Container
+// Container - 전체 페이지 부분
 const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
+  width: 1440px;
+  height: 933px;
+  margin: 0 auto;
   background-color: #ffffff;
 `;
 
-// Form Box
-const FormWrapper = styled.div`
-  background-color: white;
-  padding-right: 112px;
-  padding-left: 100px;
-  border-radius: 10px;
-  height: 622px
-  width: 777px;
+const LeftSection = styled.div`
+  width: 50%;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
 `;
-
-// // Title
-// const Title = styled.h2`
-//   text-align: left;
-//   margin-bottom: 20px;
-//   color: #3c3c3c;
-//   font-size: 60px;
-// `;
 
 const Title = styled.h2`
-  position: absolute;
-  left: 100px; /* 왼쪽 여백 조절 */
-  top: 50%;
-  transform: translateY(-50%);
-  color: #3c3c3c;
   font-size: 60px;
-  margin: 0;
+  color: #3c3c3c;
+  margin-bottom: 20px;
 `;
 
-// Input
+const SubText = styled.p`
+  font-size: 18px;
+  color: #666666;
+  margin-top: 20px;
+
+  a {
+    color: #ff7700;
+    text-decoration: none;
+    margin-left: 10px;
+  }
+`;
+
+const RightSection = styled.div`
+  width: 50%;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
 const Input = styled.input`
-  width: 777%;
-  height: 77px;
+  height: 60px;
   padding: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
@@ -62,24 +66,22 @@ const Input = styled.input`
   }
 `;
 
-// Button
 const Button = styled.button`
-  width: 100%;
-  padding: 12px;
+  height: 60px;
   background-color: #ff7700;
   color: white;
   border: none;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 40px;
+  margin-top: 30px;
 
   &:hover {
-    background-color: #ff7700;
+    background-color: #e06600;
   }
 
   &:disabled {
-    background-color: #ffffff;
+    background-color: #ccc;
     cursor: not-allowed;
   }
 `;
@@ -116,66 +118,56 @@ const SignUp = () => {
 
   return (
     <Container>
-      <FormWrapper>
+      <LeftSection>
         <Title>회원가입</Title>
+        <SubText>
+          이미 계정이 있으신가요?
+          <a href="/login">로그인</a>
+        </SubText>
+      </LeftSection>
 
+      <RightSection>
         <Input
           type="email"
-          name="email"
           placeholder="이메일을 입력하세요"
           value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <Input
           type="password"
-          name="passwd"
           placeholder="비밀번호를 입력하세요"
           value={passwd}
-          onChange={(e) => {
-            setPasswd(e.target.value);
-          }}
-          required
-        />
-        <Input
-          type="nickname"
-          name="nickname"
-          placeholder="닉네임을 입력하세요"
-          value={nickname}
-          onChange={(e) => {
-            setNickname(e.target.value);
-          }}
+          onChange={(e) => setPasswd(e.target.value)}
           required
         />
         <Input
           type="text"
-          name="name"
-          placeholder="이름을 입력하세요"
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
+          placeholder="닉네임을 입력하세요"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
           required
         />
         <Input
-          type="birth"
-          name="birth"
+          type="text"
+          placeholder="이름을 입력하세요"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <Input
+          type="text"
           placeholder="년도.월.일"
           value={birth}
-          onChange={(e) => {
-            setBirth(e.target.value);
-          }}
+          onChange={(e) => setBirth(e.target.value)}
           required
         />
         <Button
-          type="button"
           onClick={(e) => handleSubmit(e, email, passwd, nickname, name, birth)}
         >
           회원가입
         </Button>
-      </FormWrapper>
+      </RightSection>
     </Container>
   );
 };
