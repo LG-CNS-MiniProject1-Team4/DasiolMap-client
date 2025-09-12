@@ -10,19 +10,30 @@ import { Fragment, useState } from "react";
 import mapMarker from "../../assets/icons/myMap/mapMarker.svg";
 
 import sampleImg from "../../assets/images/homeMember/sample.jpeg";
+import { PlaceListBox } from "./PlaceListBox";
 
 const sampleMapData = [
   {
     center: { lat: 33.450701, lng: 126.571644 },
-    storeName: "라쿤피자",
+    storeName: "라쿤피자1",
     tags: ["데이트", "데이트", "데이트"],
     thumbImg: sampleImg,
+    rate: 4.8,
+    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
+    opentime: "09:00",
+    closetime: "17:00",
+    phonenumber: "02-222-2222",
   },
   {
-    center: { lat: 33.450701, lng: 126.570663 },
-    storeName: "라쿤피자",
+    center: { lat: 33.450701, lng: 126.574663 },
+    storeName: "라쿤피자2",
     tags: ["데이트", "데이트", "데이트"],
     thumbImg: sampleImg,
+    rate: 4.8,
+    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
+    opentime: "09:00",
+    closetime: "17:00",
+    phonenumber: "02-222-2222",
   },
 ];
 
@@ -80,8 +91,24 @@ export const MapArea = () => {
       {/* 저장목록 */}
 
       {openSavedList && (
-        <div className="w-[392px] h-full z-10 bg-[#fff] top-0 absolute left-0 pt-[81px] pl-[22px]">
-          d
+        <div className="w-[392px] h-full z-10 bg-[#fff] top-0 absolute left-0 pt-[81px] pl-[22px] gap-[21px] flex flex-col">
+          {sampleMapData.map((data, idx) => {
+            let pinned = active === idx;
+            return (
+              <PlaceListBox
+                storeName={data.storeName}
+                key={idx}
+                tags={data.tags}
+                rate={data.rate}
+                location={data.location}
+                opentime={data.opentime}
+                closetime={data.closetime}
+                phonenumber={data.phonenumber}
+                pinned={pinned}
+                onClick={() => setActive(idx)}
+              />
+            );
+          })}
         </div>
       )}
 
@@ -129,6 +156,7 @@ export const MapArea = () => {
                   onClick={(e) => {
                     stop(e);
                     setActive(idx);
+                    setOpenSavedList(true);
                   }}
                 >
                   <div className="bottom-[10px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
