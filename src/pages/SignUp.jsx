@@ -1,4 +1,4 @@
-// 비율 조정 & 로그인 버튼 추가
+// // 비율 조정 & 로그인 버튼 추가
 
 import React, { useState } from "react";
 import styled from "styled-components";
@@ -99,6 +99,7 @@ const SignUp = () => {
   const moveUrl = useNavigate();
 
   const handleSubmit = async (e, email, passwd, nickname, name, birth) => {
+    e.preventDefault();
     console.log(">>>>>>>>>>> ", email, passwd, nickname, name, birth);
 
     console.log("회원가입 정보:");
@@ -106,15 +107,15 @@ const SignUp = () => {
     // 1. 유효성 체크
     // 2. 정상적인 데이터 입력시 화면전환 /login 이동
     const data = { email, passwd, nickname, name, birth };
-    await api
-      .post("/api/v2/inspire/user/signup", data)
-      .then((response) => {
-        console.log("[debug] >>> post response : ", response);
-        moveUrl("/login");
-      })
-      .catch((error) => {
-        console.log("[debug] >>> post error");
-      });
+    // await api
+    //   .post("/api/v2/inspire/user/signup", data)
+    //   .then((response) => {
+    //     console.log("[debug] >>> post response : ", response);
+    //     moveUrl("/login");
+    //   })
+    //   .catch((error) => {
+    //     console.log("[debug] >>> post error");
+    //   });
   };
 
   return (
