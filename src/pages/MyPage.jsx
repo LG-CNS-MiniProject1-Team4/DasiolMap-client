@@ -24,11 +24,13 @@
 import React from "react";
 import styled from "styled-components";
 import PageLayout from "../components/layout/PageLayout";
-import { MapArea } from "../components/myMap/MapArea";
-// import humanLogo from "../../../assets/images/homeMember/humanLogo.png";
-import save from "../../../assets/icons/homeMember/save.svg";
 import { useNavigate } from "react-router-dom";
-const moveUrl = useNavigate();
+
+// 이미지 import
+import humanLogo from "../assets/images/homeMember/humanLogo.png";
+import save from "../assets/icons/homeMember/save.svg";
+import heart from "../assets/icons/homeMember/heart.png";
+import sample from "../assets/images/homeMember/sample.jpeg";
 
 const Container = styled.div`
   display: flex;
@@ -66,26 +68,16 @@ const ProfileImgTag = styled.img`
   object-fit: cover;
 `;
 
-// const ProfileImage = styled.div`
-//   width: 282px;
-//   height: 282px;
-//   background-image: url("/assets/images/homeMember/humanLogo.png");
-//   background-size: cover;
-//   background-position: center;
-//   border-radius: 50%;
-//   margin-bottom: 20px;
-//   border: 2px solid #ececec;
-// `;
-
 const Username = styled.h3`
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 40px;
+  font-weight: midium;
   margin-bottom: 6px;
 `;
 
 const Email = styled.p`
-  font-size: 14px;
-  color: #757575;
+  font-size: 24px;
+  font-weight: light;
+  color: #969696;
   margin-bottom: 20px;
 `;
 
@@ -94,6 +86,7 @@ const StatBox = styled.div`
   gap: 20px;
   font-size: 14px;
   color: #555;
+  align-items: center;
 `;
 
 const ContentArea = styled.div`
@@ -104,44 +97,61 @@ const ContentArea = styled.div`
 
 const SectionTitle = styled.h4`
   font-size: 24px;
-  font-weight: semi bold;
+  font-weight: 600;
   margin-bottom: 42px;
 `;
 
+// const CardGrid = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+//   gap: 20px;
+// `;
+
 const CardGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(2, 293px);
+  column-gap: 50px;
+  row-gap: 50px;
+  justify-content: center;
 `;
 
+// const PlaceCard = styled.div`
+//   border: 1px solid #ddd;
+//   border-radius: 10px;
+//   overflow: hidden;
+//   background-color: #ffffff;
+// `;
+
 const PlaceCard = styled.div`
+  width: 293px;
+  height: 260px;
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #ffffff;
 `;
 
 const CardImage = styled.div`
-  height: 120px;
-  background-image: url("https://via.placeholder.com/180x120");
+  height: 172px;
+  background-image: ${(props) => `url(${props.src})`};
   background-size: cover;
   background-position: center;
 `;
 
 const CardContent = styled.div`
-  padding: 10px;
+  padding: 20px;
 `;
 
 const PlaceName = styled.p`
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
 `;
 
 const PlaceLocation = styled.p`
   font-size: 13px;
   color: #757575;
 `;
-// 뒤로가기 탭
+
 const Header = styled.div`
   position: absolute;
   top: 161px;
@@ -162,18 +172,38 @@ const BackArrow = styled.span`
 const HeaderText = styled.span`
   font-size: 15px;
   margin-top: 10px;
-  font-weight: semibold;
+  font-weight: 600;
   color: #757575;
 `;
-///
+
+// 회원정보 수정 버튼
+const EditProfileButton = styled.button`
+  width: 286px;
+  height: 44px;
+  background-color: #ff7700;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 20px 0;
+
+  &:hover {
+    background-color: #e06600;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+`;
 
 export const MyPage = () => {
+  const moveUrl = useNavigate();
+
   return (
     <PageLayout>
-      {/* <ProfileImage>
-        <ProfileImgTag src={humanLogo} alt="프로필 이미지" />
-      </ProfileImage> */}
-
       <Header onClick={() => moveUrl(-1)}>
         <BackArrow>&lt;</BackArrow>
         <HeaderText>뒤로가기</HeaderText>
@@ -181,12 +211,17 @@ export const MyPage = () => {
 
       <Container>
         <Sidebar>
-          <ProfileImage />
+          <ProfileImage>
+            <ProfileImgTag src={humanLogo} alt="프로필 이미지" />
+          </ProfileImage>
           <Username>4조파이팅</Username>
           <Email>like2024@naver.com</Email>
+
+          <EditProfileButton>프로필 수정하기</EditProfileButton>
+
           <StatBox>
-            <ProfileImgTag src={save} alt="프로필 이미지" />
-            <span>💬 22</span>
+            <img src={save} alt="저장 아이콘" width="20" height="20" />
+            <img src={heart} alt="좋아요 아이콘" width="20" height="20" />
           </StatBox>
         </Sidebar>
 
@@ -195,7 +230,7 @@ export const MyPage = () => {
           <CardGrid>
             {[...Array(4)].map((_, i) => (
               <PlaceCard key={i}>
-                <CardImage />
+                <CardImage src={sample} />
                 <CardContent>
                   <PlaceName>홍익피자</PlaceName>
                   <PlaceLocation>서울 마포구 와우산로21길 19</PlaceLocation>
@@ -208,7 +243,7 @@ export const MyPage = () => {
           <CardGrid>
             {[...Array(4)].map((_, i) => (
               <PlaceCard key={i}>
-                <CardImage />
+                <CardImage src={sample} />
                 <CardContent>
                   <PlaceName>홍익피자</PlaceName>
                   <PlaceLocation>서울 마포구 와우산로21길 19</PlaceLocation>
