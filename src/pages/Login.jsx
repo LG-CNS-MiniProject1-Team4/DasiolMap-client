@@ -12,6 +12,22 @@ const Container = styled.div`
   background-color: #ffffff;
 `;
 
+// 환영문구
+const WelcomeText = styled.div`
+  font-size: 25px;
+  margin-bottom: 82px;
+  text-align: center;
+`;
+
+const OrangeText = styled.span`
+  color: #ff7700;
+  font-weight: medium;
+`;
+
+const GrayText = styled.span`
+  color: #757575;
+`;
+
 const LeftSection = styled.div`
   width: 50%;
   padding: 100px;
@@ -48,11 +64,11 @@ const RightSection = styled.div`
   justify-content: center;
 `;
 
-// Input
+// Input - 입력창 관련 부분
 const Input = styled.input`
   height: 60px;
   padding: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
@@ -98,6 +114,38 @@ const TextLink = styled.p`
   }
 `;
 
+// 뒤로가기 탭 " 다시올지도"
+const Header = styled.div`
+  position: absolute;
+  top: 161px;
+  left: 117px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+`;
+
+const BackArrow = styled.span`
+  font-size: 15px;
+  margin-right: 10px;
+  color: #ff7700;
+`;
+
+const HeaderText = styled.span`
+  font-size: 15px;
+  font-weight: semibold;
+  color: #ff7700;
+`;
+//
+
+// 입력창 위 라벨 부분
+const InputLabel = styled.label`
+  font-size: 16px;
+  font-weight: semibold;
+  color: #757575;
+  margin-bottom: 10px;
+`;
+
 const Login = () => {
   // api.defaults.headers.common["Authorization"] = "";
 
@@ -138,34 +186,53 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <LeftSection>
-        <Title>로그인</Title>
-        <SubText>
-          아직 계정이 없으신가요??
-          <a href="/login">회원가입</a>
-        </SubText>
-      </LeftSection>
+    <>
+      <Header onClick={() => moveUrl(-1)}>
+        <BackArrow>&lt;</BackArrow>
+        <HeaderText>다시올지도</HeaderText>
+      </Header>
 
-      <RightSection>
-        <Input
-          type="email"
-          placeholder="이메일을 입력하세요"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          value={passwd}
-          onChange={(e) => setPasswd(e.target.value)}
-          required
-        />
+      <Container>
+        <LeftSection>
+          <Title>
+            <b>로그인</b>
+          </Title>
+          <SubText>
+            아직 계정이 없으신가요??
+            <a href="/signup">회원가입</a>
+          </SubText>
+        </LeftSection>
 
-        <Button onClick={(e) => handleSubmit(e, email, passwd)}>로그인</Button>
-      </RightSection>
-    </Container>
+        <RightSection>
+          <WelcomeText>
+            <OrangeText>다시올지도</OrangeText>
+            <GrayText>에 오신 것을 환영합니다</GrayText>
+          </WelcomeText>
+
+          <InputLabel htmlFor="email">이메일</InputLabel>
+          <Input
+            type="email"
+            placeholder="이메일을 입력하세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <InputLabel htmlFor="passwd">비밀번호</InputLabel>
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            value={passwd}
+            onChange={(e) => setPasswd(e.target.value)}
+            required
+          />
+
+          <Button onClick={(e) => handleSubmit(e, email, passwd)}>
+            로그인
+          </Button>
+        </RightSection>
+      </Container>
+    </>
   );
 };
 

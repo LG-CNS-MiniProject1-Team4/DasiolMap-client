@@ -56,7 +56,7 @@ const RightSection = styled.div`
 const Input = styled.input`
   height: 60px;
   padding: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 13px;
   border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
@@ -86,6 +86,37 @@ const Button = styled.button`
     background-color: #ccc;
     cursor: not-allowed;
   }
+`;
+
+// 뒤로가기 탭 " 다시올지도"
+const Header = styled.div`
+  position: absolute;
+  top: 161px;
+  left: 117px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+`;
+
+const BackArrow = styled.span`
+  font-size: 15px;
+  margin-right: 10px;
+  color: #ff7700;
+`;
+
+const HeaderText = styled.span`
+  font-size: 15px;
+  font-weight: semibold;
+  color: #ff7700;
+`;
+
+// 입력창 위 라벨 부분
+const InputLabel = styled.label`
+  font-size: 16px;
+  font-weight: semibold;
+  color: #757575;
+  margin-bottom: 10px;
 `;
 
 // SignUp Component
@@ -119,58 +150,74 @@ const SignUp = () => {
   };
 
   return (
-    <Container>
-      <LeftSection>
-        <Title>회원가입</Title>
-        <SubText>
-          이미 계정이 있으신가요?
-          <a href="/login">로그인</a>
-        </SubText>
-      </LeftSection>
+    <>
+      <Header onClick={() => moveUrl(-1)}>
+        <BackArrow>&lt;</BackArrow>
+        <HeaderText>다시올지도</HeaderText>
+      </Header>
 
-      <RightSection>
-        <Input
-          type="email"
-          placeholder="이메일을 입력하세요"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          value={passwd}
-          onChange={(e) => setPasswd(e.target.value)}
-          required
-        />
-        <Input
-          type="text"
-          placeholder="닉네임을 입력하세요"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          required
-        />
-        <Input
-          type="text"
-          placeholder="이름을 입력하세요"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <Input
-          type="text"
-          placeholder="생년월일 (YYYY.MM.DD)"
-          value={birth}
-          onChange={(e) => setBirth(e.target.value)}
-          required
-        />
-        <Button
-          onClick={(e) => handleSubmit(e, email, passwd, nickname, name, birth)}
-        >
-          회원가입
-        </Button>
-      </RightSection>
-    </Container>
+      <Container>
+        <LeftSection>
+          <Title>
+            <b>회원가입</b>
+          </Title>
+          <SubText>
+            이미 계정이 있으신가요?
+            <a href="/login">로그인</a>
+          </SubText>
+        </LeftSection>
+
+        <RightSection>
+          <InputLabel htmlFor="email">이메일</InputLabel>
+          <Input
+            type="email"
+            placeholder="이메일을 입력하세요"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <InputLabel htmlFor="passwd">비밀번호</InputLabel>
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            value={passwd}
+            onChange={(e) => setPasswd(e.target.value)}
+            required
+          />
+          <InputLabel htmlFor="text">닉네임</InputLabel>
+          <Input
+            type="text"
+            placeholder="닉네임을 입력하세요"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            required
+          />
+          <InputLabel htmlFor="name">이름</InputLabel>
+          <Input
+            type="text"
+            placeholder="이름을 입력하세요"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <InputLabel htmlFor="birth">생년월일</InputLabel>
+          <Input
+            type="text"
+            placeholder="생년월일 (YYYY.MM.DD)"
+            value={birth}
+            onChange={(e) => setBirth(e.target.value)}
+            required
+          />
+          <Button
+            onClick={(e) =>
+              handleSubmit(e, email, passwd, nickname, name, birth)
+            }
+          >
+            회원가입
+          </Button>
+        </RightSection>
+      </Container>
+    </>
   );
 };
 
