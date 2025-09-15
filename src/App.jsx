@@ -5,6 +5,7 @@ import { HomeMember } from "./pages/HomeMemeber";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { MyMap } from "./pages/MyMap";
+import { DetailPage } from "./pages/DetailPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path={ROUTES.HOME_MEMBER} element={<HomeMember />} />
           <Route path={ROUTES.SIGNUP} element={<SignUp />} />
           <Route path={ROUTES.MYMAP} element={<MyMap />} />
+          <Route path={ROUTES.DETAILPAGE} element={<DetailPage />} />
         </Routes>
       </BrowserRouter>
     </>

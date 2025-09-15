@@ -4,4 +4,5 @@ export const ROUTES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   MYMAP: "/dasiolmap",
+  DETAILPAGE: "/dasiolmap/detail/:id",
 };
