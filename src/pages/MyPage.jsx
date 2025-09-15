@@ -264,7 +264,7 @@
 ///////////////////////////////////////////////////////////////////////////
 // 모달 추가
 
-import React, { useState } from "react"; // 🔧 수정됨: useState 추가
+import React, { useState } from "react";
 import styled from "styled-components";
 import PageLayout from "../components/layout/PageLayout";
 import { useNavigate } from "react-router-dom";
@@ -310,14 +310,13 @@ const ProfileImgTag = styled.img`
   height: 100%;
   object-fit: cover;
 `;
-// 수정됨: 'midium' → '500'
+
 const Username = styled.h3`
   font-size: 40px;
   font-weight: 500;
   margin-bottom: 6px;
 `;
 
-// 수정됨: 'light' → '300'
 const Email = styled.p`
   font-size: 24px;
   font-weight: 300;
@@ -429,7 +428,7 @@ const EditProfileButton = styled.button`
   }
 `;
 
-// 🔧 추가됨: 모달 스타일
+// 모달 스타일
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -478,7 +477,7 @@ const ModalButton = styled.button`
 
 export const MyPage = () => {
   const moveUrl = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false); // 🔧 추가됨: 모달 상태
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <PageLayout>
@@ -497,7 +496,7 @@ export const MyPage = () => {
           <EditProfileButton onClick={() => setIsModalOpen(true)}>
             프로필 수정하기
           </EditProfileButton>{" "}
-          {/* 🔧 수정됨: 클릭 시 모달 열기 */}
+          {/* 클릭 시 모달 열기 */}
           <StatBox>
             <img src={save} alt="저장 아이콘" width="20" height="20" />
             <img src={heart} alt="좋아요 아이콘" width="20" height="20" />
