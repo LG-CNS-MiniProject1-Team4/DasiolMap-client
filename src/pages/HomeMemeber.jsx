@@ -9,6 +9,8 @@ import { SearchLocateSection } from "../components/homeMember/SearchLocateSectio
 import { SearchKeywordSection } from "../components/homeMember/SearchKeywordSection";
 import { useState } from "react";
 import { KeywordComponent } from "../components/homeMember/KeywordComponent";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
 
 export const HomeMember = () => {
   const [searchBy, setSearchBy] = useState(null); // "location" // "keyword"
@@ -19,6 +21,8 @@ export const HomeMember = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const [selectedKeywords, setSelectedKeywords] = useState(new Set());
+
+  const navigate = useNavigate();
 
   const toggleKeyword = (key) => {
     setSelectedKeywords((prev) => {
@@ -118,6 +122,7 @@ export const HomeMember = () => {
             t1="나만의 "
             t2="다시 올 지도"
             desc="내가 저장한 다시 오고 싶은 장소들을 둘러보세요"
+            onClick={() => navigate(ROUTES.MYMAP)}
           />
           <GrayBox
             color="orange"

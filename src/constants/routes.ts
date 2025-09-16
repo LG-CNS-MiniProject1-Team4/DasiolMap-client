@@ -3,6 +3,9 @@ export const ROUTES = {
   HOME_MEMBER: "/home",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  WRITE_POST: "/writepost",
   MYMAP: "/dasiolmap",
   MYPAGE: "/mypage",
+  DETAILPAGE: "/dasiolmap/detail/:id",
+
 };
