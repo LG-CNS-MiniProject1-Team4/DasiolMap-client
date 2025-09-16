@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 // Container
 const Container = styled.div`
   display: flex;
-  width: 1440px;
-  height: 933px;
+  width: full;
+  height: 100vh;
   margin: 0 auto;
   background-color: #ffffff;
 `;
