@@ -9,11 +9,13 @@ export const HomeGuest = () => {
   return (
     <div>
       <PageLayout>
-        <Banner />
-        <PlaceTab />
-        <CoreFeatures />
-        <HowToUse />
-        <FooterBar />
+        <div className="mx-[-112px]">
+          <Banner />
+          <PlaceTab />
+          <CoreFeatures />
+          <HowToUse />
+          <FooterBar />
+        </div>
       </PageLayout>
     </div>
   );

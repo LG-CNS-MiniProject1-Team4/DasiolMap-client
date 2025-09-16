@@ -1,6 +1,6 @@
 // 이미지 삽입 시, png위에 css를 입히면 번거로워서 icon 이용
 // powershell에서 npm install lucide-react
-import { MapPin, FileText, Bookmark, Map } from "lucide-react"; 
+import { MapPin, FileText, Bookmark, Map } from "lucide-react";
 
 const features = [
   {
@@ -45,7 +45,9 @@ export const CoreFeatures = () => {
             key={idx}
             className="bg-white rounded-xl shadow-sm hover:shadow-md p-6 transition"
           >
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-orange-200 mb-4 mx-auto">{feature.icon}</div>
+            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-orange-200 mb-4 mx-auto">
+              {feature.icon}
+            </div>
             <h3 className="font-semibold text-lg mb-2 text-gray-800">
               {feature.title}
             </h3>
