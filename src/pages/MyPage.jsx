@@ -13,14 +13,15 @@ import sample from "../assets/images/homeMember/sample.jpeg";
 
 const Container = styled.div`
   display: flex;
-  width: 1440px;
-  height: 1963px;
+  width: full;
+  height: auto;
   margin: 0 auto;
   background-color: #ffffff;
 `;
 
 const Sidebar = styled.div`
   width: 411px;
+
   padding: 40px;
   background-color: #ffffff;
   border-right: 1px solid #ddd;
