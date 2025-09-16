@@ -65,11 +65,12 @@ export const PlaceTab = () => {
   const scrollRef = useRef(null);
   const scrollRef2 = useRef(null);
 
-  useEffect(() => { //상위 카드 애니메이션 : 좌->우
+  useEffect(() => {
+    //상위 카드 애니메이션 : 좌->우
     const container = scrollRef.current;
     if (!container) return;
 
-    const speed = 0.5;
+    const speed = 1;
 
     const interval = setInterval(() => {
       const maxScroll = container.scrollWidth - container.clientWidth;
@@ -78,134 +79,135 @@ export const PlaceTab = () => {
         // 끝에 도착하면 처음으로 되돌리기
         container.scrollLeft = 0;
         return;
-      } 
-        // 오른쪽으로 계속 이동
+      }
+      // 오른쪽으로 계속 이동
       container.scrollLeft += speed;
-      
     }, 20); // 시간 간격 조절 (ms)
 
     return () => clearInterval(interval); // 언마운트 시 정리
   }, []);
 
-
-  useEffect(() => { // 하위 카드 애니메이션 : 우->좌
+  useEffect(() => {
+    // 하위 카드 애니메이션 : 우->좌
     const container = scrollRef2.current;
     if (!container) return;
 
-    const speed = 0.5;
+    const speed = 1;
 
     const maxScroll = container.scrollWidth - container.clientWidth;
     container.scrollLeft = maxScroll; //최초 랜더링시에만 우측 끝에서 시작
 
     const interval = setInterval(() => {
-      
       if (container.scrollLeft <= 0) {
         // 끝에 도착하면 처음으로 되돌리기
         container.scrollLeft = maxScroll;
         return;
-      } 
-        // 좌측으로 계속 이동
+      }
+      // 좌측으로 계속 이동
       container.scrollLeft -= speed;
-      
     }, 20); // 시간 간격 조절 (ms)
 
     return () => clearInterval(interval); // 언마운트 시 정리
   }, []);
 
   return (
-    <section className="py-12 text-center relative max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">다양한 카테고리의 인기 장소들</h2>
-
-      <div className="relative">
-        {/* 카드 리스트 */}
-        <div
-          ref={scrollRef}
-          className="flex gap-6 overflow-hidden px-12"
-        >
-          {places.map((place) => (
-            <div
-              key={place.id}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition min-w-[250px] max-w-[250px] flex-shrink-0"
-            >
-              {/* 이미지 & 평점 */}
-              <div className="relative">
-                <img
-                  src={place.image}
-                  alt={place.title}
-                  className="rounded-t-lg w-full h-[160px] object-cover"
-                />
-                <span className="absolute top-2 right-2 bg-white text-sm font-semibold px-2 py-0.5 rounded-full shadow">
-                  {place.rating}
-                </span>
-              </div>
-              {/* 텍스트 + 태그 */}
-              <div className="p-3 text-left">
-                <p className="font-bold mb-1">{place.title}</p>
-                <p className="text-gray-500 text-sm flex items-center mb-2">
-                  <span className="mr-1">📍</span>
-                  {place.location}
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {place.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full text-xs"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+    <div className=" justify-center flex ">
+      <section className="py-12 text-center relative max-w-6xl flex flex-col ">
+        <h2 className="text-[36px] font-bold">다양한 카테고리의 인기 장소들</h2>
+        <p className="text-[#969696] font-light text-[16px]  mb-10">
+          사용자들이 직접 발견하고 공유한 특별한 장소들을 둘러보세요
+        </p>
+        <div className="relative">
+          {/* 카드 리스트 */}
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-hidden px-12 pb-1"
+          >
+            {places.map((place) => (
+              <div
+                key={place.id}
+                className="bg-white rounded-lg shadow hover:shadow-lg transition min-w-[250px] max-w-[250px] flex-shrink-0"
+              >
+                {/* 이미지 & 평점 */}
+                <div className="relative">
+                  <img
+                    src={place.image}
+                    alt={place.title}
+                    className="rounded-t-lg w-full h-[160px] object-cover"
+                  />
+                  <span className="absolute top-2 right-2 bg-white text-sm font-semibold px-2 py-0.5 rounded-full shadow">
+                    {place.rating}
+                  </span>
+                </div>
+                {/* 텍스트 + 태그 */}
+                <div className="p-3 text-left">
+                  <p className="font-bold mb-1">{place.title}</p>
+                  <p className="text-gray-500 text-sm flex items-center mb-2">
+                    <span className="mr-1">📍</span>
+                    {place.location}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {place.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full text-xs"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* 두 번째 카드 리스트*/}
-      <div className="relative">
-        {/* 카드 리스트 */}
-        <div
-          ref={scrollRef2}
-          className="flex gap-6 overflow-hidden px-12 mt-20"
-        >
-          {places.map((place) => (
-            <div
-              key={place.id}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition min-w-[250px] max-w-[250px] flex-shrink-0"
-            >
-              {/* 이미지 & 평점 */}
-              <div className="relative">
-                <img
-                  src={place.image}
-                  alt={place.title}
-                  className="rounded-t-lg w-full h-[160px] object-cover"
-                />
-                <span className="absolute top-2 right-2 bg-white text-sm font-semibold px-2 py-0.5 rounded-full shadow">
-                  {place.rating}
-                </span>
-              </div>
-              {/* 텍스트 + 태그 */}
-              <div className="p-3 text-left">
-                <p className="font-bold mb-1">{place.title}</p>
-                <p className="text-gray-500 text-sm flex items-center mb-2">
-                  <span className="mr-1">📍</span>
-                  {place.location}
-                </p>
-                <div className="flex flex-wrap gap-1">
-                  {place.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full text-xs"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
+        {/* 두 번째 카드 리스트*/}
+        <div className="relative">
+          {/* 카드 리스트 */}
+          <div
+            ref={scrollRef2}
+            className="flex gap-6 overflow-hidden px-12 mt-15 pb-1"
+          >
+            {places.map((place) => (
+              <div
+                key={place.id}
+                className="bg-white rounded-lg shadow hover:shadow-lg transition min-w-[250px] max-w-[250px] flex-shrink-0"
+              >
+                {/* 이미지 & 평점 */}
+                <div className="relative">
+                  <img
+                    src={place.image}
+                    alt={place.title}
+                    className="rounded-t-lg w-full h-[160px] object-cover"
+                  />
+                  <span className="absolute top-2 right-2 bg-white text-sm font-semibold px-2 py-0.5 rounded-full shadow">
+                    {place.rating}
+                  </span>
+                </div>
+                {/* 텍스트 + 태그 */}
+                <div className="p-3 text-left">
+                  <p className="font-bold mb-1">{place.title}</p>
+                  <p className="text-gray-500 text-sm flex items-center mb-2">
+                    <span className="mr-1">📍</span>
+                    {place.location}
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {place.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="bg-orange-100 text-orange-500 px-2 py-0.5 rounded-full text-xs"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
