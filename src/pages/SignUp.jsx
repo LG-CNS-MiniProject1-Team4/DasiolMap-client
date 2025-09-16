@@ -142,8 +142,6 @@ const SignUp = () => {
     //   .post("/api/v2/inspire/user/signup", data)
     //   .then((response) => {
     //     console.log("[debug] >>> post response : ", response);
-    //     localStorage.setItem("userNickname", nickname);
-    //     localStorage.setItem("userEmail", email);
     //     moveUrl("/login");
     //   })
     //   .catch((error) => {

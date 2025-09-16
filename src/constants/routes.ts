@@ -5,7 +5,5 @@ export const ROUTES = {
   SIGNUP: "/signup",
   WRITE_POST: "/writepost",
   MYMAP: "/dasiolmap",
-  MYPAGE: "/mypage",
   DETAILPAGE: "/dasiolmap/detail/:id",
-
 };
