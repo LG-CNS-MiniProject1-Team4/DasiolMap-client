@@ -20,3 +20,19 @@ axionPublicInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// axiosInstance.interceptors.request.use((config) => {
+//   const token = getAccessToken();
+//   if (token && config.headers) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = getAccessToken();
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
