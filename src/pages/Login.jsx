@@ -163,7 +163,7 @@ const Login = () => {
 
   return (
     <>
-      <Header onClick={() => moveUrl(-1)}>
+      <Header onClick={() => moveUrl(ROUTES.HOME_GUEST)}>
         <BackArrow>&lt;</BackArrow>
         <HeaderText>다시올지도</HeaderText>
       </Header>

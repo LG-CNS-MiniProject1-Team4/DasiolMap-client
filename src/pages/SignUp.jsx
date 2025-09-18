@@ -2,12 +2,10 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-// import api from "../../../api/axios";
-import { useNavigate } from "react-router-dom";
 
-// export const SignUp = () => {
-//   return <div className="text-[#FF7700]">SignUp</div>;
-// };
+import { useNavigate } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
+import { ROUTES } from "../constants/routes";
 
 // Container - 전체 페이지 부분
 const Container = styled.div`
@@ -124,36 +122,18 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
   const [nickname, setNickname] = useState("");
-  const [name, setName] = useState("");
-  const [birth, setBirth] = useState("");
+  const { handleSignup } = useSignup();
 
   const moveUrl = useNavigate();
 
-  const handleSubmit = async (e, email, passwd, nickname, name, birth) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(">>>>>>>>>>> ", email, passwd, nickname, name, birth);
-
-    console.log("회원가입 정보:");
-    // 여기서 API 호출 가능 axios post : data(emai, passwd, name, birth)
-    // 1. 유효성 체크
-    // 2. 정상적인 데이터 입력시 화면전환 /login 이동
-    const data = { email, passwd, nickname, name, birth };
-    // await api
-    //   .post("/api/v2/inspire/user/signup", data)
-    //   .then((response) => {
-    //     console.log("[debug] >>> post response : ", response);
-    //     localStorage.setItem("userNickname", nickname);
-    //     localStorage.setItem("userEmail", email);
-    //     moveUrl("/login");
-    //   })
-    //   .catch((error) => {
-    //     console.log("[debug] >>> post error");
-    //   });
+    await handleSignup(email, passwd, nickname);
   };
 
   return (
     <>
-      <Header onClick={() => moveUrl(-1)}>
+      <Header onClick={() => moveUrl(ROUTES.HOME_GUEST)}>
         <BackArrow>&lt;</BackArrow>
         <HeaderText>다시올지도</HeaderText>
       </Header>
@@ -170,53 +150,35 @@ const SignUp = () => {
         </LeftSection>
 
         <RightSection>
-          <InputLabel htmlFor="email">이메일</InputLabel>
-          <Input
-            type="email"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <InputLabel htmlFor="passwd">비밀번호</InputLabel>
-          <Input
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            value={passwd}
-            onChange={(e) => setPasswd(e.target.value)}
-            required
-          />
-          <InputLabel htmlFor="text">닉네임</InputLabel>
-          <Input
-            type="text"
-            placeholder="닉네임을 입력하세요"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            required
-          />
-          <InputLabel htmlFor="name">이름</InputLabel>
-          <Input
-            type="text"
-            placeholder="이름을 입력하세요"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <InputLabel htmlFor="birth">생년월일</InputLabel>
-          <Input
-            type="text"
-            placeholder="생년월일 (YYYY.MM.DD)"
-            value={birth}
-            onChange={(e) => setBirth(e.target.value)}
-            required
-          />
-          <Button
-            onClick={(e) =>
-              handleSubmit(e, email, passwd, nickname, name, birth)
-            }
-          >
-            회원가입
-          </Button>
+          <form onSubmit={handleSubmit} className="flex flex-col">
+            <InputLabel htmlFor="email">이메일</InputLabel>
+            <Input
+              type="email"
+              placeholder="이메일을 입력하세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <InputLabel htmlFor="passwd">비밀번호</InputLabel>
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              value={passwd}
+              onChange={(e) => setPasswd(e.target.value)}
+              required
+            />
+            <InputLabel htmlFor="text">닉네임</InputLabel>
+            <Input
+              type="text"
+              placeholder="닉네임을 입력하세요"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              required
+            />
+            <Button onClick={handleSubmit} type="submit">
+              회원가입
+            </Button>
+          </form>
         </RightSection>
       </Container>
     </>
