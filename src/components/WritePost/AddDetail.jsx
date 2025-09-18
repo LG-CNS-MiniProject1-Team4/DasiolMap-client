@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
 import LocationSearch from "./LocationSearch";
 import { axiosInstance } from "../../apis/axiosInstance";
 
@@ -9,6 +9,7 @@ export const AddDetail = () => {
   const fileInputRef = useRef(null);
   const [locationInfo, setLocationInfo] = useState(null);
 
+  // const [storeId, setStoreId] = useState(null);
   // 태그 선택 상태
   const [selectedTags, setSelectedTags] = useState({
     목적: [],
@@ -43,7 +44,7 @@ export const AddDetail = () => {
   const handleCheckboxChange = (name) => {
     setOptions((prev) => ({ ...prev, [name]: !prev[name] }));
   };
-  
+
   // 사진 선택 처리 (최대 4장 제한)
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -89,34 +90,54 @@ export const AddDetail = () => {
     }
 
     const storeData = {
-      storeName: locationInfo.placeName ?? "",   // placeName → storeName
-      address: locationInfo.address ?? "",       // address 그대로 사용
+      storeName: locationInfo.placeName ?? "", // placeName → storeName
+      address: locationInfo.address ?? "", // address 그대로 사용
       location: locationInfo.coords
-      ? `${locationInfo.coords.y},${locationInfo.coords.x}` // 위도,경도 문자열
-      : "",
+        ? `${locationInfo.coords.y},${locationInfo.coords.x}` // 위도,경도 문자열
+        : "",
     };
 
-    const reviewData = {
-      ...storeData,
-      photos: images,              // base64 배열 그대로 보낼지, 업로드 후 URL만 보낼지는 백엔드랑 합의 필요
-      tags: selectedTags,          // 목적/음식종류/분위기/시설 → 객체 그대로 전달
-      storeTags: options,          // { 맛집: true, 핫플: false... } 형태
-      reviews: content,            // 후기 내용
-      avgRating: avgRating,        // 숫자
-    };
+    // let reviewData = {
+    //   // photos: images, // base64 배열 그대로 보낼지, 업로드 후 URL만 보낼지는 백엔드랑 합의 필요
+    //   // tags: selectedTags, // 목적/음식종류/분위기/시설 → 객체 그대로 전달
+    //   // storeTags: options, // { 맛집: true, 핫플: false... } 형태
+    //   reviews: content, // 후기 내용
+    //   avgRating: avgRating, // 숫자
+    //   userEmail: localStorage.getItem("email"),
+    //   storeId,
+    // };
 
     try {
       // 1️⃣ 매장 정보 저장
-      await axiosInstance.post("/auth/api/v2/dasiolmap/store/register", storeData);
+      const storeRegisterResponse = await axiosInstance.post(
+        "/store/register",
+        storeData
+      );
 
-      // 2️⃣ 리뷰 저장
-      await axiosInstance.post("/auth/api/v2/dasiolmap/store/review/register", reviewData);
-      console.log("storeData 전송 데이터:", storeData);
-      console.log("review 전송 데이터:", reviewData);
-      alert("후기 등록 완료!");
+      // const newStore = storeRegisterResponse.data; // 서버가 생성된 store 객체를 반환한다고 가정
+      // const newStoreId = newStore.storeId; // 새로 생성된 storeId 추출
+      // setStoreId(newStoreId);
+
+      // if (!newStoreId) {
+      //   alert("매장 정보 등록 후 storeId를 받아오지 못했습니다.");
+      //   return;
+      // }
+      // console.log("매장 등록 성공, storeId:", newStoreId);
+      console.log("매장 등록 성공, storeId:", storeRegisterResponse);
+
+      // // 2️⃣ 리뷰 저장
+      // await axiosInstance.post("/store/review/register", reviewData);
+      // console.log("storeData 전송 데이터:", storeData);
+      // console.log("review 전송 데이터:", reviewData);
+
+      // await selectedTags.forEach((t) => {
+      //   axiosInstance.post("/store/storetag/register", t);
+      //   console.log(">>", t);
+      // });
+      // alert("후기 등록 완료!");
     } catch (err) {
       console.log("storeData 전송 데이터:", storeData);
-      console.log("review 전송 데이터:", reviewData);
+      // console.log("review 전송 데이터:", reviewData);
       console.error("전송 실패:", err);
       alert("전송 중 문제가 발생했습니다.");
     }
@@ -130,10 +151,11 @@ export const AddDetail = () => {
     시설: ["주차", "단체석", "콜키지", "룸", "1인석"],
   };
 
-   return (
+  return (
     <div className="max-w-2xl mx-auto p-6">
       <h1 className="text-lg font-semibold mb-4">
-        나만의 <span className="text-orange-500">다시 오고 싶은 장소</span>를 공유해주세요
+        나만의 <span className="text-orange-500">다시 오고 싶은 장소</span>를
+        공유해주세요
       </h1>
 
       {/* 사진 섹션 */}
@@ -253,7 +275,9 @@ export const AddDetail = () => {
               </span>
             ))}
           </div>
-          <p className="text-sm text-gray-500 mt-1">선택한 평점: {avgRating}점</p>
+          <p className="text-sm text-gray-500 mt-1">
+            선택한 평점: {avgRating}점
+          </p>
         </div>
 
         {/* 등록 버튼 */}
