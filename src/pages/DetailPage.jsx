@@ -1,100 +1,59 @@
+// src/pages/DetailPage.jsx
 import PageLayout from "../components/layout/PageLayout";
 import BackOrangeIcon from "../assets/icons/detailPage/backOrange.svg";
-import defaultPrfImg from "../assets/images/datailPage/prfImg.png";
-import saveIcon from "../assets/icons/homeMember/save.svg";
-import storeIcon1 from "../assets/icons/detailPage/storeIcon1.svg";
-import storeIcon2 from "../assets/icons/detailPage/storeIcon2.svg";
-import storeIcon3 from "../assets/icons/detailPage/storeIcon3.svg";
-import storeIcon4 from "../assets/icons/detailPage/storeIcon4.svg";
-import storeIcon5 from "../assets/icons/detailPage/storeIcon5.svg";
-
-import StoreIcon6 from "../assets/icons/detailPage/StoreIcon6.svg";
-import StoreIcon7 from "../assets/icons/detailPage/StoreIcon7.svg";
-
-import mapMarker from "../assets/icons/myMap/mapMarker.svg";
-
-import sampleImg from "../assets/images/homeMember/sample.jpeg";
-import samplePrf from "../assets/images/datailPage/samplePrf.jpg";
-
+// ... (기존 임포트)
 import { useNavigate, useParams } from "react-router-dom";
-import { useMemo, Fragment } from "react";
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
-const storeIcon = [storeIcon1, storeIcon2, storeIcon3, storeIcon4, storeIcon5];
-const sampleMapData = [
-  {
-    id: 1,
-    center: { lat: 33.450701, lng: 126.571644 },
-    title: "송파 피자 맛집 공유합니다~",
-    content:
-      "스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다. 스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대",
-    storeName: "라쿤피자-1",
-    tags: ["데이트", "데이트", "데이트"],
-    thumbImg: sampleImg,
-    imgList: [sampleImg, sampleImg, sampleImg],
-    rate: 4.8,
-    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
-    opentime: "09:00",
-    closetime: "17:00",
-    phonenumber: "02-222-2222",
-    prfImg: samplePrf,
-    prfName: "4조파이팅",
-    category: "음식점",
-    link: "http://place.map.kakao.com/16618597",
-  },
-  {
-    id: 2,
-    center: { lat: 33.450701, lng: 126.574663 },
-    title: "송파 피자 맛집 공유합니다~",
-    content:
-      "스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다. 스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다. 스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대",
-    storeName: "라쿤피자-2",
-    tags: ["데이트", "데이트", "데이트"],
-    thumbImg: sampleImg,
-    imgList: [sampleImg, sampleImg, sampleImg],
-    rate: 4.8,
-    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
-    opentime: "09:00",
-    closetime: "17:00",
-    phonenumber: "02-333-3333",
-    // prfImg: samplePrf,
-    prfName: "4조파이팅",
-    category: "음식점",
-    link: "http://place.map.kakao.com/16618597",
-  },
-];
-
-const sampleReviews = [
-  {
-    id: 1,
-    name: "4조파이팅",
-    rate: 4.8,
-    content:
-      "스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다.스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다.스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대",
-  },
-  {
-    id: 2,
-    name: "4조파이팅",
-    rate: 4.8,
-    content:
-      "스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대표하는 곳 중의 하나다. 김정호 셰프가 헤드셰프를 맡고 있다. 식재료와 조리 기법, 플레이팅 모두 세계적인 수준의 요리를 즐길 수 있다.스페인을 비롯한 세계 미식 트렌드의 영향을 많이 받아 새로운 장르를 개척한 임정식 셰프의 레스토랑으로, 뉴코리안이라는 콘셉트로 서울을 대",
-  },
-];
+import { useEffect } from "react";
+import { useKakaoLoader } from "react-kakao-maps-sdk";
+import { getstoreDetail, useStore } from "../apis/store";
 
 export const DetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   useKakaoLoader();
 
-  const data = useMemo(() => {
-    const numId = Number(id);
-    if (Number.isNaN(numId)) {
-      return <div> 해당 정보가 없습니다</div>;
+  // useStore 훅을 사용하여 전역 상태 가져오기
+  const { posts, fetchPosts, isLoading, error } = useStore();
+  const { data } = getstoreDetail(Number(id));
+
+  //컴포넌트 마운트 시 게시글 목록을 불러옴
+  useEffect(() => {
+    if (posts.length === 0) {
+      fetchPosts();
     }
-    return sampleMapData.find((d) => d.id === numId) ?? null;
-  }, [id]);
+  }, [posts.length, fetchPosts]);
+
+  const postId = Number(id);
+  // 전역 상태에서 ID에 해당하는 게시글 찾기
+  //const data = posts.find((p) => p.id === postId);
+
+  useEffect(() => {
+    const fetchStoreDetails = async () => {
+      try {
+        if (id) {
+          const data = await getstoreDetail(Number(id));
+          setStoreData(data);
+        }
+      } catch (err) {
+        console.error("Error fetching store details:", err);
+      }
+    };
+
+    fetchStoreDetails();
+  }, [id]); // id가 변경될 때마다 재호출
+
+  if (!data) {
+    return (
+      <PageLayout>
+        <div>게시글을 찾을 수 없습니다.</div>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>
+      <div></div>
+      ... (기존 JSX 코드)
       <p
         className="flex flex-row text-[#E86C00]  text-[15px] font-semibold items-center mt-[52px] mb-[51px] cursor-pointer"
         onClick={() => navigate(-1)}
@@ -109,14 +68,18 @@ export const DetailPage = () => {
         </h4>
         <div className="flex gap-3 text-[#E86C00] text-[13px] mb-[23px]">
           {data.tags.map((t) => (
-            <p className=" bg-[#FFEDD5] rounded-[50px] py-[5px] px-[7px]">
+            <p
+              className=" bg-[#FFEDD5] rounded-[50px] py-[5px] px-[7px]"
+              key={t}
+            >
               # {t}
             </p>
           ))}
         </div>
         <div className="w-full gap-5 flex flex-row mb-[29px]">
-          {data.imgList.map((t) => (
+          {data.imgList.map((t, index) => (
             <img
+              key={index}
               src={t}
               alt={data.storeName}
               className="w-[3347px] h-[284px]"
@@ -137,18 +100,21 @@ export const DetailPage = () => {
                 <img
                   src={data.prfImg}
                   className="rounded-full w-[31px] h-[31px]"
+                  alt="프로필 이미지"
                 />
               ) : (
-                <img src={defaultPrfImg} className="w-[40px] h-[40px]" />
+                <img
+                  src={defaultPrfImg}
+                  className="w-[40px] h-[40px]"
+                  alt="기본 프로필 이미지"
+                />
               )}
             </div>
             {data.prfName}
           </div>
         </div>
       </div>
-
       <div className=" mb-[50px] flex flex-row w-full h-auto justify-between">
-        {/* 가게 정보 */}
         <div className="w-[440px] h-[359px] shadow-[0_0_7.6px_-1px_rgba(0,0,0,0.20)] rounded-[24px]  pt-[51px] pl-[56px]">
           <h3 className="text-[#757575] text-[24px] font-semibold pl-[10px] mb-[23px]">
             {data.storeName}
@@ -161,10 +127,10 @@ export const DetailPage = () => {
               data.phonenumber,
               data.link,
             ].map((t, idx) => (
-              <div className="flex gap-2 text-[#757575] text-[15px]">
+              <div className="flex gap-2 text-[#757575] text-[15px]" key={idx}>
                 <img
                   src={storeIcon[idx]}
-                  alt="t"
+                  alt="icon"
                   className="w-[20px] h-[20px]"
                 />
                 <p>{t}</p>
@@ -190,7 +156,6 @@ export const DetailPage = () => {
             </div>
           </div>
         </div>
-        {/* 지도 */}
         <Map
           className="w-[748px] h-[601px]"
           id="map"
@@ -213,7 +178,6 @@ export const DetailPage = () => {
           </Fragment>
         </Map>
       </div>
-      {/* 리뷰 */}
       <div className="shadow-[0_0_7.6px_-1px_rgba(0,0,0,0.20)] rounded-[24px] w-full h-auto mb-[56px] pt-[75px] pb-[62px] px-[68px] flex flex-col">
         <div className="flex">
           <div className="w-[211px]">
@@ -231,8 +195,29 @@ export const DetailPage = () => {
           ></textarea>
         </div>
         <div className="mt-[38px] flex flex-col gap-4 text-[#757575] ">
+          {/* sampleReviews 대신 서버에서 가져온 리뷰 데이터 사용 */}
+          {/* 현재 `data.reviews`가 없으므로 이 부분은 필요에 따라 추가해야 합니다. */}
+          x{" "}
+          {data.reviews.map((r) => (
+            <div
+              className="bg-[#F5F5F5] pt-4 px-5 rounded-[24px] pb-5 "
+              key={r.id}
+            >
+              <div className="flex gap-2  mb-1 align-center items-center">
+                <h4 className="font-semibold">{r.name} Review</h4>
+                <p className="text-[#FF7700] bg-[#fff] rounded-[50px]  text-[10px]  px-1">
+                  ★ {r.rate}
+                </p>
+              </div>
+              <p>{r.content}</p>
+            </div>
+          ))}
+          {/* 임시로 sampleReviews 그대로 사용 */}*{" "}
           {sampleReviews.map((r) => (
-            <div className="bg-[#F5F5F5] pt-4 px-5 rounded-[24px] pb-5 ">
+            <div
+              className="bg-[#F5F5F5] pt-4 px-5 rounded-[24px] pb-5 "
+              key={r.id}
+            >
               <div className="flex gap-2  mb-1 align-center items-center">
                 <h4 className="font-semibold">{r.name} Review</h4>
                 <p className="text-[#FF7700] bg-[#fff] rounded-[50px]  text-[10px]  px-1">
