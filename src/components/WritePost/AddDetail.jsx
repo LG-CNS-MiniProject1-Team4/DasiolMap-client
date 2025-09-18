@@ -1,14 +1,15 @@
 import { useState, useRef } from "react"
 import LocationSearch from "./LocationSearch";
+import { axiosInstance } from "../../apis/axiosInstance";
 
 export const AddDetail = () => {
-  const [title, setTitle] = useState("");
+  //const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]); // 업로드한 이미지 삭제
   const fileInputRef = useRef(null);
   const [locationInfo, setLocationInfo] = useState(null);
 
-  // ✅ 태그 선택 상태
+  // 태그 선택 상태
   const [selectedTags, setSelectedTags] = useState({
     목적: [],
     음식종류: [],
@@ -16,12 +17,15 @@ export const AddDetail = () => {
     시설: [],
   });
 
-  // ✅ 체크박스 상태
+  // 체크박스 상태
   const [options, setOptions] = useState({
     맛집: false,
     핫플: false,
     기억에남는장소: false,
   });
+
+  // 평점 상태
+  const [avgRating, setAvgRating] = useState(0);
 
   // 태그 토글 핸들러
   const handleTagClick = (category, tag) => {
@@ -76,20 +80,46 @@ export const AddDetail = () => {
   };
 
   // 폼 제출
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = {
-      title,
-      content,
-      images,
-      selectedTags,
-      options,
-      locationInfo, //주소, 상호명, 좌표 포함
+    if (!locationInfo) {
+      alert("위치를 먼저 선택해주세요!");
+      return;
+    }
+
+    const storeData = {
+      storeName: locationInfo.placeName ?? "",   // placeName → storeName
+      address: locationInfo.address ?? "",       // address 그대로 사용
+      location: locationInfo.coords
+      ? `${locationInfo.coords.y},${locationInfo.coords.x}` // 위도,경도 문자열
+      : "",
     };
 
-    console.log("전송 데이터:", formData);
-    alert("폼 데이터가 콘솔에 출력됩니다! (백엔드 연동 준비중)");
+    const reviewData = {
+      ...storeData,
+      photos: images,              // base64 배열 그대로 보낼지, 업로드 후 URL만 보낼지는 백엔드랑 합의 필요
+      tags: selectedTags,          // 목적/음식종류/분위기/시설 → 객체 그대로 전달
+      storeTags: options,          // { 맛집: true, 핫플: false... } 형태
+      reviews: content,            // 후기 내용
+      avgRating: avgRating,        // 숫자
+    };
+
+    try {
+      // 1️⃣ 매장 정보 저장
+      await axiosInstance.post("/auth/api/v2/dasiolmap/store/register", storeData);
+
+      // 2️⃣ 리뷰 저장
+      await axiosInstance.post("/auth/api/v2/dasiolmap/store/review/register", reviewData);
+      console.log("storeData 전송 데이터:", storeData);
+      console.log("review 전송 데이터:", reviewData);
+      alert("후기 등록 완료!");
+    } catch (err) {
+      console.log("storeData 전송 데이터:", storeData);
+      console.log("review 전송 데이터:", reviewData);
+      console.error("전송 실패:", err);
+      alert("전송 중 문제가 발생했습니다.");
+    }
   };
 
   // 카테고리별 태그 목록
@@ -188,7 +218,7 @@ export const AddDetail = () => {
           ))}
         </div>
 
-        {/* 게시글 제목 */}
+        {/* 게시글 제목
         <p className="mt-3 font-bold">게시글 제목</p>
         <input
           type="text"
@@ -196,23 +226,42 @@ export const AddDetail = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full border-2 border-amber-600 focus:outline-none focus:border-gray-900 p-3 rounded"
-        />
+        /> */}
 
-        {/* 게시글 작성 */}
-        <p className="mt-3 font-bold">게시글 작성</p>
+        {/* 리뷰내용 작성 */}
+        <p className="mt-3 font-bold">후기내용 작성</p>
         <textarea
-          placeholder="게시글 내용을 입력해주세요"
+          placeholder="장소를 다녀온 후기 내용을 입력해주세요"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full border-2 border-amber-600 focus:outline-none focus:border-gray-900 p-3 rounded h-32"
         />
+
+        {/* ⭐ 평점 (별 아이콘) */}
+        <p className="mt-3 font-bold">평점 선택</p>
+        <div className="flex items-center justify-between border-2 border-amber-600 rounded p-3">
+          <div className="flex gap-1 text-2xl cursor-pointer">
+            {[1, 2, 3, 4, 5].map((rating) => (
+              <span
+                key={rating}
+                onClick={() => setAvgRating(rating)}
+                className={`transition ${
+                  rating <= avgRating ? "text-yellow-400" : "text-gray-300"
+                } hover:text-yellow-500`}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+          <p className="text-sm text-gray-500 mt-1">선택한 평점: {avgRating}점</p>
+        </div>
 
         {/* 등록 버튼 */}
         <button
           type="submit"
           className="w-full bg-orange-500 text-white py-2 rounded font-semibold hover:bg-orange-600 mt-3"
         >
-          장소등록
+          후기 등록
         </button>
       </form>
     </div>
