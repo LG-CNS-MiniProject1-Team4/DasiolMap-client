@@ -47,7 +47,7 @@ export const HomeMember = () => {
           <div className="absolute bottom-[-30px] bg-[white] w-[1097px] h-[260px] left-1/2 -translate-x-1/2 rounded-[24px] pt-[47px] pl-[54px] flex">
             <p className="text-[32px] font-light pr-[54px]">
               안녕하세요, <br />
-              <span className="text-[#f70] font-normal">{username}</span>
+              <span className="text-[#f70] font-normal">{username}님</span>
               <br />
               어떤 장소를 찾으시나요 ?
             </p>
