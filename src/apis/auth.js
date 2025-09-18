@@ -1,8 +1,10 @@
+
 import { axionPublicInstance } from "./axiosInstance";
 import { setAccessToken, setRefreshToken } from "../utils/token";
 
 export const login = async (email, passwd) => {
   const res = await axionPublicInstance.post("/user/login", {
+
     email,
     passwd,
     nickname: email,
@@ -26,3 +28,4 @@ export const login = async (email, passwd) => {
     refreshToken,
   };
 };
+

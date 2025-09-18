@@ -7,18 +7,23 @@ export const axiosInstance = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+
 export const axionPublicInstance = axios.create({
+
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
 // accesstoken header
+
 axionPublicInstance.interceptors.request.use((config) => {
+
   const token = getAccessToken();
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+
 });
 
 // axiosInstance.interceptors.request.use((config) => {
@@ -36,3 +41,4 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+
