@@ -12,7 +12,8 @@ export const useLogin = () => {
     if (accessToken) setAccessToken(accessToken);
     if (refreshToken) setRefreshToken(refreshToken);
 
-    console.log("로그인 성공 data:", user);
+    console.log("로그인 성공 data:", user.nickname);
+    localStorage.setItem("nickname", user.nickname);
     navigate(ROUTES.HOME_MEMBER);
   };
 
