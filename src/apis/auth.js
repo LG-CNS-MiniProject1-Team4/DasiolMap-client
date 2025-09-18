@@ -1,8 +1,8 @@
-import axiosInstance from "./axiosInstance";
+import { axionPublicInstance } from "./axiosInstance";
 import { setAccessToken, setRefreshToken } from "../utils/token";
 
 export const login = async (email, passwd) => {
-  const res = await axiosInstance.post("/user/login", {
+  const res = await axionPublicInstance.post("/user/login", {
     email,
     passwd,
     nickname: email,
@@ -18,7 +18,7 @@ export const login = async (email, passwd) => {
   console.log(res.authorization);
 
   setAccessToken(accessToken);
-  setRefreshToken("refreshToken");
+  setRefreshToken(refreshToken);
 
   return {
     user: res.data ?? null,
