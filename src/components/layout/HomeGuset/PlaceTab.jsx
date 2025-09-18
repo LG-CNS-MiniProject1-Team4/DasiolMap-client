@@ -1,7 +1,20 @@
 import pizzaImg from "../../../assets/images/pizza.png";
+import porkImg from "../../../assets/images/pork.png";
+import hongdaeImg from "../../../assets/images/hongdae.png";
+import songpaImg from "../../../assets/images/songpa.png";
+import bangeiImg from "../../../assets/images/bangei.png";
+import coexImg from "../../../assets/images/coex.png";
+import displayImg from "../../../assets/images/display.png";
+import riverbusImg from "../../../assets/images/riverbus.png";
+import moonImg from "../../../assets/images/moon.png";
+import runnerImg from "../../../assets/images/runner.png";
+import gardenImg from "../../../assets/images/garden.png";
+import xrImg from "../../../assets/images/xr.png";
+import christmasImg from "../../../assets/images/christmas.png";
+import bookImg from "../../../assets/images/book.png";
 import { useEffect, useRef } from "react";
 
-// 임의 데이터(나중에 DB에서 가져오기)
+// 더미 데이터
 const places = [
   {
     id: 1,
@@ -9,12 +22,12 @@ const places = [
     image: pizzaImg,
     location: "송파구 방이동",
     rating: "4.8",
-    tags: ["데이트", "핫플", "데이트"],
+    tags: ["데이트", "핫플", "분위기"],
   },
   {
     id: 2,
-    title: "강남 피자 맛집",
-    image: pizzaImg,
+    title: "강남 삼겹 맛집",
+    image: porkImg,
     location: "강남역",
     rating: "4.5",
     tags: ["데이트", "핫플", "가성비"],
@@ -22,7 +35,7 @@ const places = [
   {
     id: 3,
     title: "홍대 분위기깡패 카페",
-    image: pizzaImg,
+    image: hongdaeImg,
     location: "홍대입구",
     rating: "4.7",
     tags: ["카공", "분위기", "조용한"],
@@ -30,7 +43,7 @@ const places = [
   {
     id: 4,
     title: "송파 카공 카페",
-    image: pizzaImg,
+    image: songpaImg,
     location: "송파구 잠실",
     rating: "4.9",
     tags: ["데이트", "인스타", "케이크"],
@@ -38,7 +51,7 @@ const places = [
   {
     id: 5,
     title: "방이역 맛집",
-    image: pizzaImg,
+    image: bangeiImg,
     location: "방이동 먹자골목",
     rating: "4.6",
     tags: ["데이트", "인스타", "맛집"],
@@ -46,7 +59,7 @@ const places = [
   {
     id: 6,
     title: "역삼 핫플",
-    image: pizzaImg,
+    image: coexImg,
     location: "역삼역",
     rating: "4.5",
     tags: ["데이트", "분위기", "케이크"],
@@ -54,8 +67,68 @@ const places = [
   {
     id: 7,
     title: "남양주 전시 핫플",
-    image: pizzaImg,
+    image: displayImg,
     location: "남양주",
+    rating: "5.0",
+    tags: ["핫플", "인스타", "데이트"],
+  },
+];
+
+// 더미 데이터2
+const places2 = [
+  {
+    id: 1,
+    title: "한강 리버 버스",
+    image: riverbusImg,
+    location: "7개 한강",
+    rating: "5.0",
+    tags: ["데이트", "핫플", "인스타"],
+  },
+  {
+    id: 2,
+    title: "남산 XR 스튜디오",
+    image: xrImg,
+    location: "남산",
+    rating: "4.7",
+    tags: ["인스타", "핫플", "데이트"],
+  },
+  {
+    id: 3,
+    title: "여의도 러너스테이션",
+    image: runnerImg,
+    location: "여의도",
+    rating: "4.5",
+    tags: ["운동", "핫플", "건강"],
+  },
+  {
+    id: 4,
+    title: "서울의 달 열기구",
+    image: moonImg,
+    location: "여의도 한강공원",
+    rating: "4.9",
+    tags: ["데이트", "인스타", "분위기"],
+  },
+  {
+    id: 5,
+    title: "국제 정원 박람회",
+    image: gardenImg,
+    location: "보라매",
+    rating: "4.8",
+    tags: ["데이트", "산책", "분위기"],
+  },
+  {
+    id: 6,
+    title: "야외 도서관",
+    image: bookImg,
+    location: "광화문",
+    rating: "4.6",
+    tags: ["독서", "데이트", "야외"],
+  },
+  {
+    id: 7,
+    title: "클스마스 명동 신세계",
+    image: christmasImg,
+    location: "명돈 신세계",
     rating: "5.0",
     tags: ["핫플", "인스타", "데이트"],
   },
@@ -169,7 +242,7 @@ export const PlaceTab = () => {
             ref={scrollRef2}
             className="flex gap-6 overflow-hidden px-12 mt-15 pb-1"
           >
-            {places.map((place) => (
+            {places2.map((place) => (
               <div
                 key={place.id}
                 className="bg-white rounded-lg shadow hover:shadow-lg transition min-w-[250px] max-w-[250px] flex-shrink-0"
