@@ -1,6 +1,9 @@
 // 모달 추가
 
-import React, { useState } from "react";
+import { useState } from "react";
+// import { axiosInstance } from "../../apis/axiosInstance"; // axiosInstance 임포트
+import { axiosInstance } from "../apis/axiosInstance";
+// import axios from "axios";
 import styled from "styled-components";
 import PageLayout from "../components/layout/PageLayout";
 import { useNavigate } from "react-router-dom";
@@ -48,7 +51,6 @@ const ProfileImgTag = styled.img`
 const Username = styled.h3`
   font-size: 40px;
   font-weight: 500;
-  margin-bottom: 6px;
 `;
 
 const Email = styled.p`
@@ -139,12 +141,12 @@ const HeaderText = styled.span`
 
 const EditProfileButton = styled.button`
   width: 286px;
-  height: 44px;
+  height: 50px;
   background-color: #ff7700;
   color: white;
   border: none;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
   border-radius: 6px;
   cursor: pointer;
 
@@ -209,9 +211,62 @@ export const MyPage = () => {
   const moveUrl = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 닉네임 이메일 호출
+  const [newNickname, setNewNickname] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
   const nickname = localStorage.getItem("nickname");
   const email = localStorage.getItem("email");
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+
+    const updateData = {
+      email: email,
+      nickname: newNickname,
+      passwd: newPassword,
+    };
+
+    //  accessToken을 localStorage에서 가져옵니다.
+    const token = localStorage.getItem("accessToken");
+
+    //  API의 전체 URL을 직접 작성합니다.
+
+    // const API_URL = "http://localhost:8088/auth/api/v2/dasiolmap/user/update";
+    // try {
+    //   //  이 부분을 수정하세요!
+    //   const response = await axiosInstance.post(
+    //     "/user/update", // baseURL 뒤에 올 경로만 작성합니다.
+    //     updateData
+    //   );
+    const API_URL = `/user/update`;
+    try {
+      const response = await axiosInstance.put(
+        `user/updateUser/${email}`, // Swagger 경로에 맞게 수정: /updateUser/{id}
+        updateData
+      );
+
+      // const response = await axiosInstance.put(
+      //   `/user/update/${email}`,
+      //   updateData
+      // );
+      // const response = await axiosInstance.put(
+      //   `/user/update/${email}`,
+      //   updateData
+      // );
+
+      console.log("수정 성공:", response.data);
+      alert("회원 정보가 성공적으로 수정되었습니다.");
+      setIsModalOpen(false);
+
+      localStorage.setItem("nickname", newNickname);
+      window.location.reload();
+    } catch (error) {
+      console.error("프로필 수정 실패:", error);
+      alert("회원 정보 수정에 실패했습니다.");
+    }
+  };
+
+  // ... (기존 JSX return 부분)
 
   return (
     <PageLayout>
@@ -221,7 +276,7 @@ export const MyPage = () => {
             <BackArrow>&lt;</BackArrow>
             <HeaderText>뒤로가기</HeaderText>
           </Header>
-          <ProfileImage className="flex mx-auto">
+          <ProfileImage className="flex mx-auto w-[280px] h-[280px]">
             <ProfileImgTag src={humanLogo} alt="프로필 이미지" />
           </ProfileImage>
 
@@ -280,21 +335,46 @@ export const MyPage = () => {
       {isModalOpen && (
         <ModalOverlay onClick={() => setIsModalOpen(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ fontSize: "20px", marginBottom: "20px" }}>
+            <h2
+              style={{
+                fontSize: "20px",
+                marginBottom: "20px",
+                margin: "auto",
+              }}
+              className="font-bold text-[#333]"
+            >
               회원정보 수정
             </h2>
-            <Input
-              type="email"
-              placeholder={email}
-              disabled
-              className="bg-[#C4C4C4]"
-            />
-            <Input type="text" placeholder="새 닉네임을 입력하세요" />
-            <Input type="text" placeholder="새 비밀번호를 입력하세요" />
 
-            <ModalButton onClick={() => setIsModalOpen(false)}>
-              수정완료
-            </ModalButton>
+            {/*  추가: form 태그와 onSubmit 핸들러 */}
+            <form
+              onSubmit={handleUpdateProfile}
+              className="flex flex-col gap-2 mx-[20px] "
+            >
+              <Input
+                type="email"
+                // placeholder를 고정 값으로 변경하거나, value만 사용
+                placeholder={email}
+                value={email}
+                disabled // 이메일은 수정할 수 없게 막음
+                className="bg-[#c4c4c4] text-[#757575]"
+              />
+              <Input
+                type="text"
+                placeholder="새 닉네임을 입력하세요"
+                value={newNickname} //  추가: 상태와 연결
+                onChange={(e) => setNewNickname(e.target.value)} //  추가: 변경 핸들러
+              />
+              <Input
+                type="password" //  중요: 비밀번호는 type="password"로 변경
+                placeholder="새 비밀번호를 입력하세요"
+                value={newPassword} //  추가: 상태와 연결
+                onChange={(e) => setNewPassword(e.target.value)} //  추가: 변경 핸들러
+              />
+
+              {/*  수정: button type을 submit으로 변경 */}
+              <ModalButton type="submit">수정완료</ModalButton>
+            </form>
           </ModalContent>
         </ModalOverlay>
       )}
