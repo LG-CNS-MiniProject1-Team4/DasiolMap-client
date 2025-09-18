@@ -13,6 +13,8 @@ export const useLogin = () => {
     if (refreshToken) setRefreshToken(refreshToken);
 
     console.log("로그인 성공 data:", user);
+    localStorage.setItem("nickname", user.nickname);
+    localStorage.setItem("email", user.email);
     navigate(ROUTES.HOME_MEMBER);
   };
 

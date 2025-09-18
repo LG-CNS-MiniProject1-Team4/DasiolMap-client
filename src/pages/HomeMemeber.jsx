@@ -24,6 +24,8 @@ export const HomeMember = () => {
 
   const navigate = useNavigate();
 
+  const username = localStorage.getItem("nickname");
+
   const toggleKeyword = (key) => {
     setSelectedKeywords((prev) => {
       const next = new Set(prev);
@@ -45,7 +47,7 @@ export const HomeMember = () => {
           <div className="absolute bottom-[-30px] bg-[white] w-[1097px] h-[260px] left-1/2 -translate-x-1/2 rounded-[24px] pt-[47px] pl-[54px] flex">
             <p className="text-[32px] font-light pr-[54px]">
               안녕하세요, <br />
-              <span className="text-[#f70] font-normal">4조화이팅님</span>
+              <span className="text-[#f70] font-normal">{username}</span>
               <br />
               어떤 장소를 찾으시나요 ?
             </p>
@@ -130,6 +132,7 @@ export const HomeMember = () => {
             t1="다시 올 지도 "
             t2="추가하기"
             desc="나만의 다시 오고 싶은 장소를 공유해주세요"
+            onClick={() => navigate(ROUTES.WRITE_POST)}
           />
         </div>
 
