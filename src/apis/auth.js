@@ -26,3 +26,12 @@ export const login = async (email, passwd) => {
     refreshToken,
   };
 };
+
+export const signup = async (email, passwd, nickname) => {
+  const res = await axionPublicInstance.post("/user/signup", {
+    email,
+    passwd,
+    nickname,
+  });
+  console.log(res);
+};
