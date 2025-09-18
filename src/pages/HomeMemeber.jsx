@@ -132,6 +132,7 @@ export const HomeMember = () => {
             t1="다시 올 지도 "
             t2="추가하기"
             desc="나만의 다시 오고 싶은 장소를 공유해주세요"
+            onClick={() => navigate(ROUTES.WRITE_POST)}
           />
         </div>
 

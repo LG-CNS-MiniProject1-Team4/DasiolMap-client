@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { useNavigate } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
+import { ROUTES } from "../constants/routes";
 
 // Container - 전체 페이지 부분
 const Container = styled.div`
@@ -132,7 +133,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Header onClick={() => moveUrl(-1)}>
+      <Header onClick={() => moveUrl(ROUTES.HOME_GUEST)}>
         <BackArrow>&lt;</BackArrow>
         <HeaderText>다시올지도</HeaderText>
       </Header>

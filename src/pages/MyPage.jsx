@@ -14,20 +14,17 @@ import sample from "../assets/images/homeMember/sample.jpeg";
 const Container = styled.div`
   display: flex;
   width: full;
-  height: auto;
-  margin: 0 auto;
+  height: calc(100vh - 153px);
   background-color: #ffffff;
 `;
 
 const Sidebar = styled.div`
-  width: 411px;
-
+  width: 500px;
   padding: 40px;
   background-color: #ffffff;
   border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const ProfileImage = styled.div`
@@ -120,24 +117,21 @@ const PlaceLocation = styled.p`
 `;
 
 const Header = styled.div`
-  position: absolute;
-  top: 161px;
-  left: 117px;
+  margin-top: 30px;
   display: flex;
-  align-items: center;
   cursor: pointer;
-  z-index: 10;
+  margin-bottom: 50px;
 `;
 
 const BackArrow = styled.span`
-  font-size: 15px;
+  font-size: 17px;
   margin-top: 10px;
   margin-right: 10px;
   color: #757575;
 `;
 
 const HeaderText = styled.span`
-  font-size: 15px;
+  font-size: 16px;
   margin-top: 10px;
   font-weight: 600;
   color: #757575;
@@ -153,7 +147,6 @@ const EditProfileButton = styled.button`
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
-  margin: 20px 0;
 
   &:hover {
     background-color: #e06600;
@@ -217,38 +210,41 @@ export const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 닉네임 이메일 호출
-  const nickname = localStorage.getItem("userNickname");
-  const email = localStorage.getItem("userEmail");
+  const nickname = localStorage.getItem("nickname");
+  const email = localStorage.getItem("email");
 
   return (
     <PageLayout>
-      <Header onClick={() => moveUrl(-1)}>
-        <BackArrow>&lt;</BackArrow>
-        <HeaderText>뒤로가기</HeaderText>
-      </Header>
-
       <Container>
         <Sidebar>
-          <ProfileImage>
+          <Header onClick={() => moveUrl(-1)}>
+            <BackArrow>&lt;</BackArrow>
+            <HeaderText>뒤로가기</HeaderText>
+          </Header>
+          <ProfileImage className="flex mx-auto">
             <ProfileImgTag src={humanLogo} alt="프로필 이미지" />
           </ProfileImage>
-          {/* <Username>4조파이팅</Username>
-          <Email>like2024@naver.com</Email> */}
-          <Username>{nickname}</Username>
-          <Email>{email}</Email>
-          <EditProfileButton onClick={() => setIsModalOpen(true)}>
+
+          <Username className="mx-auto">{nickname}</Username>
+          <Email className="mx-auto">{email}</Email>
+          <EditProfileButton
+            onClick={() => setIsModalOpen(true)}
+            className="mx-auto"
+          >
             프로필 수정하기
-          </EditProfileButton>{" "}
+          </EditProfileButton>
           {/* 클릭 시 모달 열기 */}
-          <StatBox>
-            <img src={save} alt="저장 아이콘" width="20" height="20" />
-            <img src={heart} alt="좋아요 아이콘" width="20" height="20" />
+          <StatBox className="mx-auto mt-7">
+            <img src={save} alt="저장 아이콘" width="30" height="30" />
+            <img src={heart} alt="좋아요 아이콘" width="30" height="30" />
           </StatBox>
         </Sidebar>
 
         <ContentArea>
-          <SectionTitle>저장한 장소</SectionTitle>
-          <CardGrid>
+          <SectionTitle className="mt-[50px] text-[#757575]">
+            저장한 장소
+          </SectionTitle>
+          <CardGrid className="mb-[100px] ">
             {[...Array(4)].map((_, i) => (
               <PlaceCard key={i}>
                 <CardImage src={sample} />
@@ -260,8 +256,13 @@ export const MyPage = () => {
             ))}
           </CardGrid>
 
-          <SectionTitle style={{ marginTop: "40px" }}>내 게시글</SectionTitle>
-          <CardGrid>
+          <SectionTitle
+            style={{ marginTop: "40px" }}
+            className="mb-[100px] text-[#757575]"
+          >
+            내 게시글
+          </SectionTitle>
+          <CardGrid className="mb-[100px]">
             {[...Array(4)].map((_, i) => (
               <PlaceCard key={i}>
                 <CardImage src={sample} />
@@ -282,10 +283,15 @@ export const MyPage = () => {
             <h2 style={{ fontSize: "20px", marginBottom: "20px" }}>
               회원정보 수정
             </h2>
-            <Input type="email" placeholder="이메일을 입력하세요" />
-            <Input type="text" placeholder="닉네임을 입력하세요" />
-            <Input type="text" placeholder="이름을 입력하세요" />
-            <Input type="date" placeholder="생년월일" />
+            <Input
+              type="email"
+              placeholder={email}
+              disabled
+              className="bg-[#C4C4C4]"
+            />
+            <Input type="text" placeholder="새 닉네임을 입력하세요" />
+            <Input type="text" placeholder="새 비밀번호를 입력하세요" />
+
             <ModalButton onClick={() => setIsModalOpen(false)}>
               수정완료
             </ModalButton>
