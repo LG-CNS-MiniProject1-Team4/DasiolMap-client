@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 // import api from "../../../api/axios";
 import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../constants/routes";
+
+import { useLogin } from "../hooks/useLogin";
 
 // Container
 const Container = styled.div`
@@ -147,42 +150,15 @@ const InputLabel = styled.label`
 `;
 
 const Login = () => {
-  // api.defaults.headers.common["Authorization"] = "";
+  const { handleLogin } = useLogin();
 
   const [email, setEmail] = useState("");
   const [passwd, setPasswd] = useState("");
-
   const moveUrl = useNavigate();
 
-  const handleSubmit = async (e, email, passwd) => {
-    console.log("로그인 정보:");
-    // API 호출 가능
-    // const data = { email, passwd };
-
-    // await api
-    //   .get("/api/v2/inspire/user/signin", { params: data })
-    //   .then((response) => {
-    //     console.log("[debug] >>> post respone : ", response);
-    //     console.log("accessToken", response.headers.get("authorization"));
-    //     console.log("refreshToken", response.headers.get("refresh-token"));
-
-    //     localStorage.setItem(
-    //       "accessToken",
-    //       response.headers.get("authorization")
-    //     );
-    //     localStorage.setItem(
-    //       "refreshToken",
-    //       response.headers.get("refresh-token")
-    //     );
-
-    //     localStorage.setItem("userInfo", response.data.name);
-    //     localStorage.setItem("userEmail", response.data.email);
-
-    //     moveUrl("/blog");
-    //   })
-    //   .catch((error) => {
-    //     console.log("[debug] >>> post error");
-    //   });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleLogin(email, passwd);
   };
 
   return (
@@ -209,27 +185,25 @@ const Login = () => {
             <GrayText>에 오신 것을 환영합니다</GrayText>
           </WelcomeText>
 
-          <InputLabel htmlFor="email">이메일</InputLabel>
-          <Input
-            type="email"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <InputLabel htmlFor="passwd">비밀번호</InputLabel>
-          <Input
-            type="password"
-            placeholder="비밀번호를 입력하세요"
-            value={passwd}
-            onChange={(e) => setPasswd(e.target.value)}
-            required
-          />
-
-          <Button onClick={(e) => handleSubmit(e, email, passwd)}>
-            로그인
-          </Button>
+          <form onSubmit={handleSubmit} className="flex flex-col">
+            <InputLabel htmlFor="email">이메일</InputLabel>
+            <Input
+              type="email"
+              placeholder="이메일을 입력하세요"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <InputLabel htmlFor="passwd">비밀번호</InputLabel>
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력하세요"
+              value={passwd}
+              onChange={(e) => setPasswd(e.target.value)}
+              required
+            />
+            <Button type="submit">로그인</Button>
+          </form>
         </RightSection>
       </Container>
     </>
