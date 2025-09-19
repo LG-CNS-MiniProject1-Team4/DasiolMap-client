@@ -9,31 +9,32 @@ import { ROUTES } from "../../constants/routes";
 import { Fragment, useState } from "react";
 import mapMarker from "../../assets/icons/myMap/mapMarker.svg";
 
-import sampleImg from "../../assets/images/homeMember/sample.jpeg";
+import sampleImg1 from "../../assets/images/homeMember/store1.png";
+import sampleImg2 from "../../assets/images/homeMember/store2.png";
 import { PlaceListBox } from "./PlaceListBox";
 
 const sampleMapData = [
   {
-    center: { lat: 33.450701, lng: 126.571644 },
-    storeName: "라쿤피자1",
-    tags: ["데이트", "데이트", "데이트"],
-    thumbImg: sampleImg,
-    rate: 4.8,
-    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
-    opentime: "09:00",
-    closetime: "17:00",
-    phonenumber: "02-222-2222",
+    center: { lat: 37.510022, lng: 127.126145 },
+    storeName: "벽제갈비 방이점",
+    tags: ["맛집", "데이트", "주차"],
+    thumbImg: sampleImg1,
+    rate: 4.5,
+    location: "서울 송파구 양재대로71길 1-4",
+    opentime: "11:30",
+    closetime: "22:00",
+    phonenumber: "02-415-5522",
   },
   {
-    center: { lat: 33.450701, lng: 126.574663 },
-    storeName: "라쿤피자2",
-    tags: ["데이트", "데이트", "데이트"],
-    thumbImg: sampleImg,
+    center: { lat: 37.509711, lng: 127.131144 },
+    storeName: "프로퍼커피바",
+    tags: ["데이트", "분위기", "카공"],
+    thumbImg: sampleImg2,
     rate: 4.8,
-    location: "서울특별시 강남구 선릉로158길 11 (청담동)",
-    opentime: "09:00",
-    closetime: "17:00",
-    phonenumber: "02-222-2222",
+    location: "서울 송파구 위례성대로22길 6 유진빌딩 1층",
+    opentime: "10:00",
+    closetime: "22:00",
+    phonenumber: "02-3401-0703",
   },
 ];
 
@@ -116,7 +117,7 @@ export const MapArea = () => {
       <Map
         className="w-full h-full"
         id="map"
-        center={{ lat: 33.450701, lng: 126.570667 }}
+        center={{ lat: 37.508857, lng: 127.126133 }}
         level={3}
         onClick={() => {
           setActive(null);
@@ -159,12 +160,12 @@ export const MapArea = () => {
                     setOpenSavedList(true);
                   }}
                 >
-                  <div className="bottom-[10px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
-                    <img //마커 & 오버레이 겹치게....!!!
+                  <div className="bottom-[70px] left-[-14px] absolute z-5 customoverlay w-[239px] h-[100px] bg-[#fff] rounded-[12px_12px_12px_22px] shadow-[0_0_10px_0_rgba(117,117,117,0.40)]">
+                    {/* <img //마커 & 오버레이 겹치게....!!!
                       src={mapMarker}
                       alt="mapmarker"
                       className="z-10 absolute bottom-[-11px] left-[-20px] w-[70px] h-[70px]"
-                    />
+                    /> */}
                     {/* 오버레이 데이터 */}
                     <div className="flex justify-between p-[10px]">
                       <div className="flex flex-col">
