@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import LocationSearch from "./LocationSearch";
 import { axiosInstance } from "../../apis/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../constants/routes";
 
 export const AddDetail = () => {
   //const [title, setTitle] = useState("");
@@ -9,6 +11,7 @@ export const AddDetail = () => {
   const fileInputRef = useRef(null);
   const [locationInfo, setLocationInfo] = useState(null);
 
+  const navigate = useNavigate();
   // 태그 선택 상태
   const [selectedTags, setSelectedTags] = useState({
     목적: [],
@@ -125,13 +128,20 @@ export const AddDetail = () => {
       console.log("storeData 전송 데이터:", storeData);
       console.log("review 전송 데이터:", reviewData);
 
-      await axiosInstance.post("/store/review/register", reviewData);
+      const reviewRes = await axiosInstance.post(
+        "/store/review/register",
+        reviewData
+      );
+
+      console.log(">>", reviewRes.data[0].reviewId);
 
       // await selectedTags.forEach((t) => {
       //   axiosInstance.post("/store/storetag/register", t);
       //   console.log(">>", t);
       // });
-      // alert("후기 등록 완료!");
+
+      alert("후기 등록 완료!");
+      navigate(`/dasiolmap/detail/${newStoreId}`);
     } catch (err) {
       console.log("storeData 전송 데이터:", storeData);
       // console.log("review 전송 데이터:", reviewData);

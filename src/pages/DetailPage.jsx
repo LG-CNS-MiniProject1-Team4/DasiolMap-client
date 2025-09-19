@@ -32,6 +32,7 @@ export const DetailPage = () => {
   const [error, setError] = useState(null);
 
   const { kakaoData } = useKakaoPlaceDetails(data?.location, data?.storeName);
+
   useEffect(() => {
     const fetchStoreDetails = async () => {
       if (!id) {
@@ -72,7 +73,7 @@ export const DetailPage = () => {
     );
   }
 
-  console.log(kakaoData);
+  // console.log(kakaoData);
   let center = { lat: 37.5665, lng: 126.978 }; // 기본값응 서울 시청
   if (data.location) {
     const [lat, lng] = data.location.split(",");
@@ -98,7 +99,11 @@ export const DetailPage = () => {
         뒤로가기
       </p>
       <div className="w-full h-auto shadow-[0_0_7.6px_-1px_rgba(0,0,0,0.20)] rounded-[24px] pt-[34px] pl-[71px] pr-[65px] pb-[33px] mb-[54px] relative">
-        <img className="absolute right-8 top-6 " src={saveIcon} alt="save" />
+        <div
+          className="absolute right-8 top-6 "
+          src={saveIcon}
+          alt="save"
+        ></div>
         <h4 className="text-[32px] font-semibold text-[#E86C00] mb-8">
           {data.storeName}
         </h4>
@@ -213,7 +218,7 @@ export const DetailPage = () => {
                   navigator.share({
                     title: "내 웹사이트",
                     text: "내가 발견한 특별한 장소를 다시 찾아갈 수 있도록",
-                    url: kakaoData?.place_url,
+                    // url: kakaoData?.place_url,
                   });
                 } else {
                   alert("이 브라우저는 기본 공유 기능을 지원하지 않습니다.");
