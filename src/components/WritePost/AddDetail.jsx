@@ -9,7 +9,6 @@ export const AddDetail = () => {
   const fileInputRef = useRef(null);
   const [locationInfo, setLocationInfo] = useState(null);
 
-  // const [storeId, setStoreId] = useState(null);
   // 태그 선택 상태
   const [selectedTags, setSelectedTags] = useState({
     목적: [],
@@ -97,38 +96,36 @@ export const AddDetail = () => {
         : "",
     };
 
-    // let reviewData = {
-    //   // photos: images, // base64 배열 그대로 보낼지, 업로드 후 URL만 보낼지는 백엔드랑 합의 필요
-    //   // tags: selectedTags, // 목적/음식종류/분위기/시설 → 객체 그대로 전달
-    //   // storeTags: options, // { 맛집: true, 핫플: false... } 형태
-    //   reviews: content, // 후기 내용
-    //   avgRating: avgRating, // 숫자
-    //   userEmail: localStorage.getItem("email"),
-    //   storeId,
-    // };
-
     try {
       // 1️⃣ 매장 정보 저장
       const storeRegisterResponse = await axiosInstance.post(
         "/store/register",
         storeData
       );
+      console.log(storeRegisterResponse.data.storeId);
+      const newStoreId = storeRegisterResponse.data?.storeId;
 
-      // const newStore = storeRegisterResponse.data; // 서버가 생성된 store 객체를 반환한다고 가정
-      // const newStoreId = newStore.storeId; // 새로 생성된 storeId 추출
-      // setStoreId(newStoreId);
+      const reviewData = {
+        // photos: images, // base64 배열 그대로 보낼지, 업로드 후 URL만 보낼지는 백엔드랑 합의 필요
+        // tags: selectedTags, // 목적/음식종류/분위기/시설 → 객체 그대로 전달
+        // storeTags: options, // { 맛집: true, 핫플: false... } 형태
+        review: content, // 후기 내용
+        rating: avgRating, // 숫자
+        userEmail: localStorage.getItem("email"),
+        storeId: newStoreId,
+      };
 
-      // if (!newStoreId) {
-      //   alert("매장 정보 등록 후 storeId를 받아오지 못했습니다.");
-      //   return;
-      // }
-      // console.log("매장 등록 성공, storeId:", newStoreId);
-      console.log("매장 등록 성공, storeId:", storeRegisterResponse);
+      if (!newStoreId) {
+        alert("매장 정보 등록 후 storeId를 받아오지 못했습니다.");
+        return;
+      }
 
       // // 2️⃣ 리뷰 저장
-      // await axiosInstance.post("/store/review/register", reviewData);
-      // console.log("storeData 전송 데이터:", storeData);
-      // console.log("review 전송 데이터:", reviewData);
+
+      console.log("storeData 전송 데이터:", storeData);
+      console.log("review 전송 데이터:", reviewData);
+
+      await axiosInstance.post("/store/review/register", reviewData);
 
       // await selectedTags.forEach((t) => {
       //   axiosInstance.post("/store/storetag/register", t);
