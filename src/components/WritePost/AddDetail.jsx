@@ -46,6 +46,7 @@ export const AddDetail = () => {
   };
 
   // 사진 선택 처리 (최대 4장 제한)
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -108,7 +109,7 @@ export const AddDetail = () => {
     // };
 
     try {
-      // 1️⃣ 매장 정보 저장
+      // 1 매장 정보 저장
       const storeRegisterResponse = await axiosInstance.post(
         "/store/register",
         storeData
@@ -125,7 +126,7 @@ export const AddDetail = () => {
       // console.log("매장 등록 성공, storeId:", newStoreId);
       console.log("매장 등록 성공, storeId:", storeRegisterResponse);
 
-      // // 2️⃣ 리뷰 저장
+      // // 리뷰 저장
       // await axiosInstance.post("/store/review/register", reviewData);
       // console.log("storeData 전송 데이터:", storeData);
       // console.log("review 전송 데이터:", reviewData);
@@ -259,7 +260,7 @@ export const AddDetail = () => {
           className="w-full border-2 border-amber-600 focus:outline-none focus:border-gray-900 p-3 rounded h-32"
         />
 
-        {/* ⭐ 평점 (별 아이콘) */}
+        {/*  평점 (별 아이콘) */}
         <p className="mt-3 font-bold">평점 선택</p>
         <div className="flex items-center justify-between border-2 border-amber-600 rounded p-3">
           <div className="flex gap-1 text-2xl cursor-pointer">
