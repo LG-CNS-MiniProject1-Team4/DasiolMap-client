@@ -227,7 +227,7 @@ export const MyPage = () => {
     };
 
     //  accessToken을 localStorage에서 가져옵니다.
-    const token = localStorage.getItem("accessToken");
+    // const token = localStorage.getItem("accessToken");
 
     //  API의 전체 URL을 직접 작성합니다.
 

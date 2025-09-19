@@ -36,7 +36,7 @@ export const useKakaoPlaceDetails = (location, storeName) => {
 
         if (response.data.documents && response.data.documents.length > 0) {
           setKakaoData(response.data.documents[0]);
-          console.log("Kakao API Details:", response.data.documents[0]);
+          console.log("Kakao API Details:", response.data.documents);
         } else {
           setKakaoData(null);
         }
