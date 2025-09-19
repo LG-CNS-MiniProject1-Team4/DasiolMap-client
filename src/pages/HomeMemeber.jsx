@@ -7,23 +7,24 @@ import icon3 from "../assets/icons/homeMember/grayBoxIcon3.svg";
 import { RecentList } from "../components/homeMember/recentList";
 import { SearchLocateSection } from "../components/homeMember/SearchLocateSection";
 import { SearchKeywordSection } from "../components/homeMember/SearchKeywordSection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { KeywordComponent } from "../components/homeMember/KeywordComponent";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants/routes";
+import axios from "axios";
+import { axiosInstance } from "../apis/axiosInstance";
 
 export const HomeMember = () => {
-  const [searchBy, setSearchBy] = useState(null); // "location" // "keyword"
-
-  const [searchInput, setSearchInput] = useState("input"); //input //key
-
+  const [searchBy, setSearchBy] = useState(null);
+  const [searchInput, setSearchInput] = useState("input");
   const [inputValue, setInputValue] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
-
   const [selectedKeywords, setSelectedKeywords] = useState(new Set());
+  const [recentStores, setRecentStores] = useState(null); // 초기값을 null로 변경
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
-
   const username = localStorage.getItem("nickname");
 
   const toggleKeyword = (key) => {
@@ -34,6 +35,27 @@ export const HomeMember = () => {
     });
     setSearchBy("keyword");
   };
+
+  useEffect(() => {
+    const fetchRecentStores = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axiosInstance.get("/search/stores/by-date", {
+          params: { sort: "desc" },
+        });
+        const stores = response.data.slice(0, 6);
+        setRecentStores(stores);
+      } catch (err) {
+        console.error("Failed to fetch recent stores:", err);
+        setError("최근 등록 장소를 불러오는 데 실패했습니다.");
+        setRecentStores([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRecentStores();
+  }, []);
 
   return (
     <div>
@@ -47,7 +69,7 @@ export const HomeMember = () => {
           <div className="absolute bottom-[-30px] bg-[white] w-[1097px] h-[260px] left-1/2 -translate-x-1/2 rounded-[24px] pt-[47px] pl-[54px] flex">
             <p className="text-[32px] font-light pr-[54px]">
               안녕하세요, <br />
-              <span className="text-[#f70] font-normal">{username}</span>
+              <span className="text-[#f70] font-normal">{username}님</span>
               <br />
               어떤 장소를 찾으시나요 ?
             </p>
@@ -143,14 +165,18 @@ export const HomeMember = () => {
           (searchKeyword !== "" || selectedKeywords.size > 0) && (
             <SearchKeywordSection
               mode={searchInput}
-              searchKey={searchKeyword} //검색어
-              selectedKeywords={[...selectedKeywords]} //키워드
+              searchKey={searchKeyword}
+              selectedKeywords={[...selectedKeywords]}
             />
           )
         ) : null}
 
         {/* 최근 등록장소 */}
-        <RecentList />
+        <RecentList
+          stores={recentStores} // recentStores가 null일 때도 전달
+          isLoading={isLoading}
+          error={error}
+        />
       </PageLayout>
     </div>
   );

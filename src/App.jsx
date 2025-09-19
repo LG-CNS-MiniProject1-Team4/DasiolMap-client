@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ROUTES } from "./constants/routes";
 import { HomeGuest } from "./pages/HomeGuest";
-import { HomeMember } from "./pages/HomeMemeber";
 
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -10,9 +9,7 @@ import MyPage from "./pages/MyPage";
 
 import { DetailPage } from "./pages/DetailPage";
 import { WritePost } from "./pages/WritePost";
-
-
-
+import { HomeMember } from "./pages/HomeMemeber";
 
 function App() {
   return (
@@ -27,7 +24,6 @@ function App() {
           <Route path={ROUTES.MYMAP} element={<MyMap />} />
           <Route path={ROUTES.MYPAGE} element={<MyPage />} />
           <Route path={ROUTES.DETAILPAGE} element={<DetailPage />} />
-
         </Routes>
       </BrowserRouter>
     </>
